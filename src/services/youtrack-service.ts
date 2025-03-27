@@ -3,7 +3,7 @@ import { z } from 'zod';
 // YouTrack API Configuration Schema
 export const YouTrackConfigSchema = z.object({
   baseUrl: z.string().url(),
-  token: z.string().startsWith('perm:'),
+  token: z.string(), // Allow any token format, as requirements may vary
 });
 
 export type YouTrackConfig = z.infer<typeof YouTrackConfigSchema>;
@@ -46,13 +46,33 @@ export class YouTrackService {
       headers.set('Content-Type', 'application/json');
     }
     
+    const requestDetails = {
+      method: options.method || 'GET',
+      url,
+      body: options.body ? JSON.parse(options.body as string) : undefined
+    };
+    console.debug('Request details:', JSON.stringify(requestDetails, null, 2));
+    
     const response = await fetch(url, {
       ...options,
       headers,
     });
     
     if (!response.ok) {
-      throw new Error(`YouTrack API error: ${response.status} ${response.statusText}`);
+      const errorBody = await response.text();
+      let errorDetails;
+      try {
+        errorDetails = JSON.parse(errorBody);
+      } catch (e) {
+        errorDetails = errorBody;
+      }
+      
+      throw new Error(
+        `YouTrack API error: ${response.status} ${response.statusText}\n` +
+        `URL: ${url}\n` +
+        `Method: ${options.method || 'GET'}\n` +
+        `Response: ${JSON.stringify(errorDetails, null, 2)}`
+      );
     }
     
     return response.json() as Promise<T>;
@@ -69,14 +89,18 @@ export class YouTrackService {
    * Search for issues
    */
   async searchIssues(query: string, limit: number = 10) {
-    return this.request<Issue[]>(`/api/issues?query=${encodeURIComponent(query)}&$top=${limit}`);
+    // YouTrack API expects fields parameter to define what to return
+    // Without it, the API might not return all the fields we need
+    return this.request<Issue[]>(
+      `/api/issues?query=${encodeURIComponent(query)}&$top=${limit}&fields=id,summary,description,project(id,shortName)`
+    );
   }
 
   /**
    * Create a new issue
    */
   async createIssue(projectId: string, summary: string, description?: string) {
-    return this.request<Issue>('/api/issues', {
+    return this.request<Issue>('/api/issues?fields=id,summary,description,project(id,shortName)', {
       method: 'POST',
       body: JSON.stringify({
         project: { id: projectId },

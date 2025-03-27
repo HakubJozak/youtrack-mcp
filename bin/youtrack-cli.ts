@@ -32,12 +32,31 @@ async function main() {
       case "create":
         await createIssue();
         break;
+      case "test-connection":
+        await testConnection();
+        break;
       default:
         showHelp();
         break;
     }
   } catch (error) {
     console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
+}
+
+async function testConnection() {
+  console.log("Testing connection to YouTrack...");
+  console.log(`URL: ${YOUTRACK_URL}`);
+  console.log(`Token: ${YOUTRACK_TOKEN.substring(0, 10)}...`);
+  
+  try {
+    const user = await youtrack.getCurrentUser();
+    console.log("Connection successful!");
+    console.log("Current user:", JSON.stringify(user, null, 2));
+  } catch (error) {
+    console.error("Connection failed!");
+    console.error(error.message);
     process.exit(1);
   }
 }
@@ -55,18 +74,25 @@ async function listIssues() {
   const query = `project: ${projectId}`;
   
   console.log(`Fetching up to ${limit} issues from project ${projectId}...`);
+  console.log(`Query: "${query}"`);
   
-  const issues = await youtrack.searchIssues(query, limit);
-  
-  if (issues.length === 0) {
-    console.log("No issues found.");
-    return;
+  try {
+    const issues = await youtrack.searchIssues(query, limit);
+    
+    if (!issues || issues.length === 0) {
+      console.log("No issues found.");
+      return;
+    }
+    
+    console.log(`Found ${issues.length} issues:`);
+    issues.forEach(issue => {
+      console.log(`- [${issue.id}] ${issue.summary}`);
+    });
+  } catch (error) {
+    console.error("Failed to fetch issues:");
+    console.error(error.message);
+    process.exit(1);
   }
-  
-  console.log(`Found ${issues.length} issues:`);
-  issues.forEach(issue => {
-    console.log(`- [${issue.id}] ${issue.summary}`);
-  });
 }
 
 async function createIssue() {
@@ -81,13 +107,23 @@ async function createIssue() {
   }
   
   console.log(`Creating issue in project ${projectId}...`);
+  console.log(`Summary: ${summary}`);
+  if (description) {
+    console.log(`Description: ${description}`);
+  }
   
-  const issue = await youtrack.createIssue(projectId, summary, description);
-  
-  console.log(`Issue created successfully: ${issue.id}`);
-  console.log(`Summary: ${issue.summary}`);
-  if (issue.description) {
-    console.log(`Description: ${issue.description}`);
+  try {
+    const issue = await youtrack.createIssue(projectId, summary, description);
+    
+    console.log(`Issue created successfully: ${issue.id}`);
+    console.log(`Summary: ${issue.summary}`);
+    if (issue.description) {
+      console.log(`Description: ${issue.description}`);
+    }
+  } catch (error) {
+    console.error("Failed to create issue:");
+    console.error(error.message);
+    process.exit(1);
   }
 }
 
@@ -99,11 +135,13 @@ Usage:
   ./bin/youtrack-cli.ts <command> [options]
 
 Commands:
-  list <projectId> [limit]      List issues in a project
+  test-connection              Test connection to YouTrack API 
+  list <projectId> [limit]     List issues in a project
   create <projectId> <summary> [description]  Create a new issue
 
 Examples:
-  ./bin/youtrack-cli.ts list PROJ 5           List 5 issues from project PROJ
+  ./bin/youtrack-cli.ts test-connection      Test API connection
+  ./bin/youtrack-cli.ts list PROJ 5          List 5 issues from project PROJ
   ./bin/youtrack-cli.ts create PROJ "Fix bug" "The login button doesn't work"
   `);
 }

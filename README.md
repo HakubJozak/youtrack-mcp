@@ -68,6 +68,9 @@ The project includes a simple CLI for interacting with YouTrack:
 # Make the CLI executable
 chmod +x ./bin/youtrack-cli.ts
 
+# Test your connection to YouTrack
+./bin/youtrack-cli.ts test-connection
+
 # List issues in a project
 ./bin/youtrack-cli.ts list PROJECT_ID [limit]
 
