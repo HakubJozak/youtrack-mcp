@@ -36,7 +36,7 @@ server.tool("searchIssues",
 // Add tool to create an issue
 server.tool("createIssue",
   { 
-    projectId: z.string(), 
+    projectId: z.string().describe("Project ID or shortName"), 
     summary: z.string(), 
     description: z.string().optional() 
   },
@@ -57,7 +57,7 @@ server.tool("createIssue",
 // Add tool to update an issue
 server.tool("updateIssue",
   { 
-    issueId: z.string(), 
+    issueId: z.string().describe("Issue ID or readable ID (e.g., PROJ-123)"), 
     updates: z.object({
       summary: z.string().optional(),
       description: z.string().optional(),
@@ -80,7 +80,7 @@ server.tool("updateIssue",
 
 // Add tool to delete an issue
 server.tool("deleteIssue",
-  { issueId: z.string() },
+  { issueId: z.string().describe("Issue ID or readable ID (e.g., PROJ-123)") },
   async ({ issueId }) => {
     try {
       await youtrackService.deleteIssue(issueId);
@@ -114,7 +114,7 @@ server.tool("getProjects",
 
 // Add tool to get a specific project
 server.tool("getProject",
-  { projectId: z.string() },
+  { projectId: z.string().describe("Project ID or shortName") },
   async ({ projectId }) => {
     try {
       const project = await youtrackService.getProject(projectId);
@@ -153,7 +153,7 @@ server.tool("createProject",
 // Add tool to update a project
 server.tool("updateProject",
   { 
-    projectId: z.string(), 
+    projectId: z.string().describe("Project ID or shortName"), 
     updates: z.object({
       name: z.string().optional(),
       shortName: z.string().optional(),
@@ -177,7 +177,7 @@ server.tool("updateProject",
 
 // Add tool to delete a project
 server.tool("deleteProject",
-  { projectId: z.string() },
+  { projectId: z.string().describe("Project ID or shortName") },
   async ({ projectId }) => {
     try {
       await youtrackService.deleteProject(projectId);

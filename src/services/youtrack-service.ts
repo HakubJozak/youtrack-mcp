@@ -108,9 +108,32 @@ export class YouTrackService {
   }
 
   /**
+   * Resolve an issue identifier (ID or readable ID) to an issue ID
+   * @private
+   */
+  private async resolveIssueIdentifier(identifier: string): Promise<string> {
+    // If it looks like a numeric ID, use it directly
+    if (/^\d+$/.test(identifier)) {
+      return identifier;
+    }
+    
+    // Otherwise, try to find issue by readable ID (e.g. 'PROJ-123')
+    // Query for the specific issue
+    const query = `#${identifier}`;
+    const issues = await this.searchIssues(query, 1);
+    
+    if (!issues || issues.length === 0) {
+      throw new Error(`Issue with identifier '${identifier}' not found`);
+    }
+    
+    return issues[0].id;
+  }
+
+  /**
    * Create a new issue
    */
-  async createIssue(projectId: string, summary: string, description?: string) {
+  async createIssue(projectIdentifier: string, summary: string, description?: string) {
+    const projectId = await this.resolveProjectIdentifier(projectIdentifier);
     return this.request<Issue>('/api/issues?fields=id,summary,description,project(id,shortName)', {
       method: 'POST',
       body: JSON.stringify({
@@ -124,7 +147,8 @@ export class YouTrackService {
   /**
    * Update an existing issue
    */
-  async updateIssue(issueId: string, updates: Partial<Omit<Issue, 'id'>>) {
+  async updateIssue(issueIdentifier: string, updates: Partial<Omit<Issue, 'id'>>) {
+    const issueId = await this.resolveIssueIdentifier(issueIdentifier);
     return this.request<Issue>(`/api/issues/${issueId}`, {
       method: 'POST',
       body: JSON.stringify(updates),
@@ -134,7 +158,8 @@ export class YouTrackService {
   /**
    * Delete an issue
    */
-  async deleteIssue(issueId: string) {
+  async deleteIssue(issueIdentifier: string) {
+    const issueId = await this.resolveIssueIdentifier(issueIdentifier);
     return this.request(`/api/issues/${issueId}`, {
       method: 'DELETE',
     });
@@ -150,9 +175,31 @@ export class YouTrackService {
   }
 
   /**
-   * Get a project by ID
+   * Resolve a project identifier (ID or shortName) to a project ID
+   * @private
    */
-  async getProject(projectId: string) {
+  private async resolveProjectIdentifier(identifier: string): Promise<string> {
+    // If identifier looks like a numeric ID, use it directly
+    if (/^\d+$/.test(identifier)) {
+      return identifier;
+    }
+    
+    // Otherwise, try to find project by shortName
+    const projects = await this.getProjects();
+    const project = projects.find(p => p.shortName === identifier);
+    
+    if (!project) {
+      throw new Error(`Project with identifier '${identifier}' not found`);
+    }
+    
+    return project.id;
+  }
+
+  /**
+   * Get a project by ID or shortName
+   */
+  async getProject(projectIdentifier: string) {
+    const projectId = await this.resolveProjectIdentifier(projectIdentifier);
     return this.request<Project>(
       `/api/admin/projects/${projectId}?fields=id,name,shortName,description`
     );
@@ -175,7 +222,8 @@ export class YouTrackService {
   /**
    * Update an existing project
    */
-  async updateProject(projectId: string, updates: Partial<Omit<Project, 'id'>>) {
+  async updateProject(projectIdentifier: string, updates: Partial<Omit<Project, 'id'>>) {
+    const projectId = await this.resolveProjectIdentifier(projectIdentifier);
     return this.request<Project>(`/api/admin/projects/${projectId}?fields=id,name,shortName,description`, {
       method: 'POST',
       body: JSON.stringify(updates),
@@ -185,7 +233,8 @@ export class YouTrackService {
   /**
    * Delete a project
    */
-  async deleteProject(projectId: string) {
+  async deleteProject(projectIdentifier: string) {
+    const projectId = await this.resolveProjectIdentifier(projectIdentifier);
     return this.request(`/api/admin/projects/${projectId}`, {
       method: 'DELETE',
     });

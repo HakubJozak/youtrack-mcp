@@ -84,18 +84,18 @@ async function testConnection() {
 }
 
 async function listIssues() {
-  const projectId = args[1];
+  const projectIdentifier = args[1];
   
-  if (!projectId) {
-    console.error("Error: Project ID is required for list-issues command");
-    console.log("Usage: ./bin/youtrack-cli.ts list-issues <projectId> [limit]");
+  if (!projectIdentifier) {
+    console.error("Error: Project ID or shortName is required for list-issues command");
+    console.log("Usage: ./bin/youtrack-cli.ts list-issues <projectId|shortName> [limit]");
     process.exit(1);
   }
   
   const limit = parseInt(args[2]) || 10;
-  const query = `project: ${projectId}`;
+  const query = `project: ${projectIdentifier}`;
   
-  console.log(`Fetching up to ${limit} issues from project ${projectId}...`);
+  console.log(`Fetching up to ${limit} issues from project ${projectIdentifier}...`);
   console.log(`Query: "${query}"`);
   
   try {
@@ -118,24 +118,24 @@ async function listIssues() {
 }
 
 async function createIssue() {
-  const projectId = args[1];
+  const projectIdentifier = args[1];
   const summary = args[2];
   const description = args[3];
   
-  if (!projectId || !summary) {
-    console.error("Error: Project ID and summary are required for create-issue command");
-    console.log("Usage: ./bin/youtrack-cli.ts create-issue <projectId> <summary> [description]");
+  if (!projectIdentifier || !summary) {
+    console.error("Error: Project ID or shortName and summary are required for create-issue command");
+    console.log("Usage: ./bin/youtrack-cli.ts create-issue <projectId|shortName> <summary> [description]");
     process.exit(1);
   }
   
-  console.log(`Creating issue in project ${projectId}...`);
+  console.log(`Creating issue in project ${projectIdentifier}...`);
   console.log(`Summary: ${summary}`);
   if (description) {
     console.log(`Description: ${description}`);
   }
   
   try {
-    const issue = await youtrack.createIssue(projectId, summary, description);
+    const issue = await youtrack.createIssue(projectIdentifier, summary, description);
     
     console.log(`Issue created successfully: ${issue.id}`);
     console.log(`Summary: ${issue.summary}`);
@@ -176,18 +176,18 @@ async function listProjects() {
 }
 
 async function getProject() {
-  const projectId = args[1];
+  const projectIdentifier = args[1];
   
-  if (!projectId) {
-    console.error("Error: Project ID is required for get-project command");
-    console.log("Usage: ./bin/youtrack-cli.ts get-project <projectId>");
+  if (!projectIdentifier) {
+    console.error("Error: Project ID or shortName is required for get-project command");
+    console.log("Usage: ./bin/youtrack-cli.ts get-project <projectId|shortName>");
     process.exit(1);
   }
   
-  console.log(`Fetching project ${projectId}...`);
+  console.log(`Fetching project ${projectIdentifier}...`);
   
   try {
-    const project = await youtrack.getProject(projectId);
+    const project = await youtrack.getProject(projectIdentifier);
     
     console.log(`Project ID: ${project.id}`);
     console.log(`Name: ${project.name}`);
@@ -237,18 +237,18 @@ async function createProject() {
 }
 
 async function updateProject() {
-  const projectId = args[1];
+  const projectIdentifier = args[1];
   const name = args[2];
   const shortName = args[3];
   const description = args[4];
   
-  if (!projectId || (!name && !shortName && !description)) {
-    console.error("Error: Project ID and at least one field to update are required");
-    console.log("Usage: ./bin/youtrack-cli.ts update-project <projectId> [name] [shortName] [description]");
+  if (!projectIdentifier || (!name && !shortName && !description)) {
+    console.error("Error: Project ID or shortName and at least one field to update are required");
+    console.log("Usage: ./bin/youtrack-cli.ts update-project <projectId|shortName> [name] [shortName] [description]");
     process.exit(1);
   }
   
-  console.log(`Updating project ${projectId}...`);
+  console.log(`Updating project ${projectIdentifier}...`);
   
   const updates: Record<string, string> = {};
   
@@ -268,7 +268,7 @@ async function updateProject() {
   }
   
   try {
-    const project = await youtrack.updateProject(projectId, updates);
+    const project = await youtrack.updateProject(projectIdentifier, updates);
     
     console.log(`Project updated successfully: ${project.id}`);
     console.log(`Name: ${project.name}`);
@@ -284,19 +284,19 @@ async function updateProject() {
 }
 
 async function deleteProject() {
-  const projectId = args[1];
+  const projectIdentifier = args[1];
   
-  if (!projectId) {
-    console.error("Error: Project ID is required for delete-project command");
-    console.log("Usage: ./bin/youtrack-cli.ts delete-project <projectId>");
+  if (!projectIdentifier) {
+    console.error("Error: Project ID or shortName is required for delete-project command");
+    console.log("Usage: ./bin/youtrack-cli.ts delete-project <projectId|shortName>");
     process.exit(1);
   }
   
-  console.log(`Deleting project ${projectId}...`);
+  console.log(`Deleting project ${projectIdentifier}...`);
   
   try {
-    await youtrack.deleteProject(projectId);
-    console.log(`Project ${projectId} deleted successfully.`);
+    await youtrack.deleteProject(projectIdentifier);
+    console.log(`Project ${projectIdentifier} deleted successfully.`);
   } catch (error) {
     console.error("Failed to delete project:");
     console.error(error.message);
@@ -315,15 +315,15 @@ General Commands:
   test-connection              Test connection to YouTrack API
 
 Issue Commands:
-  list-issues <projectId> [limit]              List issues in a project
-  create-issue <projectId> <summary> [description]  Create a new issue
+  list-issues <projectId|shortName> [limit]              List issues in a project
+  create-issue <projectId|shortName> <summary> [description]  Create a new issue
 
 Project Commands:
   list-projects                List all projects
-  get-project <projectId>      Get details of a specific project
+  get-project <projectId|shortName>      Get details of a specific project
   create-project <name> <shortName> [description]  Create a new project
-  update-project <projectId> [name] [shortName] [description]  Update a project
-  delete-project <projectId>   Delete a project
+  update-project <projectId|shortName> [name] [shortName] [description]  Update a project
+  delete-project <projectId|shortName>   Delete a project
 
 Examples:
   ./bin/youtrack-cli.ts test-connection                     Test API connection
