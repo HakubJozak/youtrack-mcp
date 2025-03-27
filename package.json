@@ -3,8 +3,15 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "bun run index.ts",
+    "cli": "bun run bin/youtrack-cli.ts",
+    "generate-api": "orval --config ./orval.config.ts",
+    "api-examples": "bun run api/examples.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "orval": "^7.7.0"
   },
   "peerDependencies": {
     "typescript": "^5"
