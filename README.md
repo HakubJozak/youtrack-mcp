@@ -60,4 +60,22 @@ The YouTrack MCP server provides the following tools:
 - `updateIssue`: Update an existing issue's properties
 - `deleteIssue`: Delete an issue
 
+## CLI Usage
+
+The project includes a simple CLI for interacting with YouTrack:
+
+```bash
+# Make the CLI executable
+chmod +x ./bin/youtrack-cli.ts
+
+# List issues in a project
+./bin/youtrack-cli.ts list PROJECT_ID [limit]
+
+# Create a new issue
+./bin/youtrack-cli.ts create PROJECT_ID "Issue summary" "Optional description"
+
+# Show help
+./bin/youtrack-cli.ts
+```
+
 This project was created using `bun init` in bun v1.2.5. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
