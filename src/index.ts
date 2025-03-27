@@ -10,10 +10,10 @@ const server = new McpServer({
 });
 
 // Initialize YouTrack service
-// Note: In a real app, these would come from environment variables
 const youtrackService = new YouTrackService({
-  baseUrl: process.env.YOUTRACK_URL || "https://youtrack.example.com",
-  token: process.env.YOUTRACK_TOKEN || "perm:your-token-here"
+  baseUrl: process.env.YOUTRACK_MCP_URL || process.env.YOUTRACK_URL || "https://youtrack.example.com",
+  token: process.env.YOUTRACK_MCP_TOKEN || process.env.YOUTRACK_TOKEN || "perm:your-token-here",
+  defaultProject: process.env.YOUTRACK_MCP_PROJECT
 });
 
 // Add tool to search issues

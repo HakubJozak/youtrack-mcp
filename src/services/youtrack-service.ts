@@ -4,6 +4,7 @@ import { z } from 'zod';
 export const YouTrackConfigSchema = z.object({
   baseUrl: z.string().url(),
   token: z.string(), // Allow any token format, as requirements may vary
+  defaultProject: z.string().optional(), // Optional default project ID or shortName
 });
 
 export type YouTrackConfig = z.infer<typeof YouTrackConfigSchema>;
@@ -41,6 +42,14 @@ export class YouTrackService {
   
   constructor(config: YouTrackConfig) {
     this.config = YouTrackConfigSchema.parse(config);
+  }
+  
+  /**
+   * Get the default project identifier if it exists
+   * @returns The default project ID or shortName, or null if not set
+   */
+  getDefaultProject(): string | null {
+    return this.config.defaultProject || null;
   }
 
   /**
@@ -131,9 +140,17 @@ export class YouTrackService {
 
   /**
    * Create a new issue
+   * @param projectIdentifier Project ID or shortName. If not provided, uses default project.
    */
-  async createIssue(projectIdentifier: string, summary: string, description?: string) {
-    const projectId = await this.resolveProjectIdentifier(projectIdentifier);
+  async createIssue(projectIdentifier: string | null = null, summary: string, description?: string) {
+    // Use provided project or fall back to default
+    const projectIdOrName = projectIdentifier || this.getDefaultProject();
+    
+    if (!projectIdOrName) {
+      throw new Error('Project identifier must be provided or set as default project in environment variables');
+    }
+    
+    const projectId = await this.resolveProjectIdentifier(projectIdOrName);
     return this.request<Issue>('/api/issues?fields=id,summary,description,project(id,shortName)', {
       method: 'POST',
       body: JSON.stringify({
