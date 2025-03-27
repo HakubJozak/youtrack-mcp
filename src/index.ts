@@ -1,7 +1,7 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { YouTrackService } from "./services/youtrack-service.js";
+import { YouTrackService, ProjectSchema } from "./services/youtrack-service.js";
 
 // Create an MCP server
 const server = new McpServer({
@@ -90,6 +90,103 @@ server.tool("deleteIssue",
     } catch (error) {
       return {
         content: [{ type: "text", text: `Error deleting issue: ${error.message}` }]
+      };
+    }
+  }
+);
+
+// Add tool to get all projects
+server.tool("getProjects",
+  {},
+  async () => {
+    try {
+      const projects = await youtrackService.getProjects();
+      return {
+        content: [{ type: "text", text: JSON.stringify(projects, null, 2) }]
+      };
+    } catch (error) {
+      return {
+        content: [{ type: "text", text: `Error getting projects: ${error.message}` }]
+      };
+    }
+  }
+);
+
+// Add tool to get a specific project
+server.tool("getProject",
+  { projectId: z.string() },
+  async ({ projectId }) => {
+    try {
+      const project = await youtrackService.getProject(projectId);
+      return {
+        content: [{ type: "text", text: JSON.stringify(project, null, 2) }]
+      };
+    } catch (error) {
+      return {
+        content: [{ type: "text", text: `Error getting project: ${error.message}` }]
+      };
+    }
+  }
+);
+
+// Add tool to create a project
+server.tool("createProject",
+  { 
+    name: z.string(), 
+    shortName: z.string(), 
+    description: z.string().optional() 
+  },
+  async ({ name, shortName, description }) => {
+    try {
+      const project = await youtrackService.createProject(name, shortName, description);
+      return {
+        content: [{ type: "text", text: `Project created successfully: ${project.id}` }]
+      };
+    } catch (error) {
+      return {
+        content: [{ type: "text", text: `Error creating project: ${error.message}` }]
+      };
+    }
+  }
+);
+
+// Add tool to update a project
+server.tool("updateProject",
+  { 
+    projectId: z.string(), 
+    updates: z.object({
+      name: z.string().optional(),
+      shortName: z.string().optional(),
+      description: z.string().optional(),
+      // Add more fields as needed
+    })
+  },
+  async ({ projectId, updates }) => {
+    try {
+      await youtrackService.updateProject(projectId, updates);
+      return {
+        content: [{ type: "text", text: `Project ${projectId} updated successfully` }]
+      };
+    } catch (error) {
+      return {
+        content: [{ type: "text", text: `Error updating project: ${error.message}` }]
+      };
+    }
+  }
+);
+
+// Add tool to delete a project
+server.tool("deleteProject",
+  { projectId: z.string() },
+  async ({ projectId }) => {
+    try {
+      await youtrackService.deleteProject(projectId);
+      return {
+        content: [{ type: "text", text: `Project ${projectId} deleted successfully` }]
+      };
+    } catch (error) {
+      return {
+        content: [{ type: "text", text: `Error deleting project: ${error.message}` }]
       };
     }
   }

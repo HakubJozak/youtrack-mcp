@@ -8,6 +8,17 @@ export const YouTrackConfigSchema = z.object({
 
 export type YouTrackConfig = z.infer<typeof YouTrackConfigSchema>;
 
+// Project Schema
+export const ProjectSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  shortName: z.string(),
+  description: z.string().optional(),
+  // Add more fields as needed
+});
+
+export type Project = z.infer<typeof ProjectSchema>;
+
 // Issue Schema
 export const IssueSchema = z.object({
   id: z.string(),
@@ -125,6 +136,57 @@ export class YouTrackService {
    */
   async deleteIssue(issueId: string) {
     return this.request(`/api/issues/${issueId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  /**
+   * Get all projects
+   */
+  async getProjects() {
+    return this.request<Project[]>(
+      '/api/admin/projects?fields=id,name,shortName,description'
+    );
+  }
+
+  /**
+   * Get a project by ID
+   */
+  async getProject(projectId: string) {
+    return this.request<Project>(
+      `/api/admin/projects/${projectId}?fields=id,name,shortName,description`
+    );
+  }
+
+  /**
+   * Create a new project
+   */
+  async createProject(name: string, shortName: string, description?: string) {
+    return this.request<Project>('/api/admin/projects?fields=id,name,shortName,description', {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        shortName,
+        description,
+      }),
+    });
+  }
+
+  /**
+   * Update an existing project
+   */
+  async updateProject(projectId: string, updates: Partial<Omit<Project, 'id'>>) {
+    return this.request<Project>(`/api/admin/projects/${projectId}?fields=id,name,shortName,description`, {
+      method: 'POST',
+      body: JSON.stringify(updates),
+    });
+  }
+
+  /**
+   * Delete a project
+   */
+  async deleteProject(projectId: string) {
+    return this.request(`/api/admin/projects/${projectId}`, {
       method: 'DELETE',
     });
   }
