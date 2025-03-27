@@ -7,7 +7,7 @@ export default defineConfig({
     },
     output: {
       mode: 'split',
-      target: './api/generated',
+      target: './generated/youtrack',
       client: 'fetch',
       prettier: true,
       mock: false,
