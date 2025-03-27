@@ -5,6 +5,8 @@ JetBrains Youtrack project management.
 
 - YouTrack REST API - https://www.jetbrains.com/help/youtrack/devportal/api-getting-started.html
 - MCP HowTo - https://github.com/modelcontextprotocol/typescript-sdk?tab=readme-ov-file
+- Swagger/Open API Specs are in docs/youtrack-openapi.json
+
 
 ## Setup
 
