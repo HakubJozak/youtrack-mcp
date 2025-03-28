@@ -14,7 +14,7 @@ export default defineConfig({
       override: {
         mutator: {
           path: './src/services/custom-axios-instance.ts',
-          name: 'createCustomAxiosInstance',
+          name: 'customAxiosInstance',
         },
         operations: {
           // You can add operation overrides here if needed

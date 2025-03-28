@@ -1,25 +1,20 @@
 #!/usr/bin/env bun
-import { YouTrackService } from "../src/services/youtrack-service.js";
+
 import dotenv from "dotenv";
 
 // Load environment variables
 dotenv.config();
 
-const YOUTRACK_MCP_URL = process.env.YOUTRACK_MCP_URL || process.env.YOUTRACK_URL;
-const YOUTRACK_MCP_TOKEN = process.env.YOUTRACK_MCP_TOKEN || process.env.YOUTRACK_TOKEN;
-const YOUTRACK_MCP_PROJECT = process.env.YOUTRACK_MCP_PROJECT;
 
-if (!YOUTRACK_MCP_URL || !YOUTRACK_MCP_TOKEN) {
-  console.error("Error: YOUTRACK_MCP_URL and YOUTRACK_MCP_TOKEN must be set in .env file");
-  console.error("(Legacy YOUTRACK_URL and YOUTRACK_TOKEN are also supported)");
-  process.exit(1);
-}
 
-// Initialize YouTrack service
+
+
 const youtrack = new YouTrackService({
   baseUrl: YOUTRACK_MCP_URL,
   token: YOUTRACK_MCP_TOKEN
 });
+
+
 
 // Parse command line arguments
 const args = process.argv.slice(2);
