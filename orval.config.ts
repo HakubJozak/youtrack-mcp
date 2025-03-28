@@ -7,26 +7,25 @@ export default defineConfig({
     },
     output: {
       mode: 'split',
-      target: './generated/youtrack',
-      client: 'fetch',
+      target: './src/youtrack',
+      client: 'axios',
       prettier: true,
       mock: false,
       override: {
         mutator: {
-          path: './api/mutator/custom-instance.ts',
-          name: 'customInstance',
+          path: './src/services/custom-axios-instance.ts',
+          name: 'createCustomAxiosInstance',
         },
         operations: {
           // You can add operation overrides here if needed
         },
         useDates: true, // Convert date strings to Date objects
-        useTypeOverrides: true,
       },
-      schemas: './api/models',
+      schemas: './src/youtrack/models',
       tslint: true,
     },
     hooks: {
-      afterAllFilesWrite: 'prettier --write "./api/**/*.{ts,js,json}"',
+      afterAllFilesWrite: 'prettier --write "./src/youtrack/**/*.{ts,js,json}"',
     },
   },
 });
