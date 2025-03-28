@@ -45,6 +45,14 @@ export class YouTrackService {
   }
   
   /**
+   * Get the base URL of the YouTrack instance
+   * @returns The YouTrack base URL
+   */
+  getBaseUrl(): string {
+    return this.config.baseUrl;
+  }
+  
+  /**
    * Get the default project identifier if it exists
    * @returns The default project ID or shortName, or null if not set
    */

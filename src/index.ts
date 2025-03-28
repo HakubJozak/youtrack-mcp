@@ -1,7 +1,7 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { YouTrackService, ProjectSchema } from "./services/youtrack-service.js";
+import { YouTrackService, ProjectSchema, IssueSchema } from "./services/youtrack-service.js";
 
 // Create an MCP server
 const server = new McpServer({
@@ -191,6 +191,37 @@ server.tool("deleteProject",
     }
   }
 );
+
+// URL templates for YouTrack entities
+server.resourceTemplate("issueUrl", {
+  params: {
+    issueId: z.string().describe("Issue ID or readable ID (e.g., PROJ-123)")
+  },
+  generate: async ({ issueId }) => {
+    try {
+      // Get the base URL and construct the issue URL
+      const baseUrl = youtrackService.getBaseUrl();
+      return new URL(`/issue/${issueId}`, baseUrl).toString();
+    } catch (error) {
+      throw new Error(`Error generating issue URL: ${error.message}`);
+    }
+  }
+});
+
+server.resourceTemplate("projectUrl", {
+  params: {
+    projectId: z.string().describe("Project ID or shortName")
+  },
+  generate: async ({ projectId }) => {
+    try {
+      // Get the base URL and construct the project URL
+      const baseUrl = youtrackService.getBaseUrl();
+      return new URL(`/projects/${projectId}`, baseUrl).toString();
+    } catch (error) {
+      throw new Error(`Error generating project URL: ${error.message}`);
+    }
+  }
+});
 
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();

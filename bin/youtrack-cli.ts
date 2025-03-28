@@ -18,7 +18,8 @@ if (!YOUTRACK_MCP_URL || !YOUTRACK_MCP_TOKEN) {
 // Initialize YouTrack service
 const youtrack = new YouTrackService({
   baseUrl: YOUTRACK_MCP_URL,
-  token: YOUTRACK_MCP_TOKEN
+  token: YOUTRACK_MCP_TOKEN,
+  defaultProject: YOUTRACK_MCP_PROJECT
 });
 
 // Parse command line arguments
@@ -34,6 +35,9 @@ async function main() {
         break;
       case "create-issue":
         await createIssue();
+        break;
+      case "get-issue-url":
+        await getIssueUrl();
         break;
       
       // Project commands
@@ -51,6 +55,9 @@ async function main() {
         break;
       case "delete-project":
         await deleteProject();
+        break;
+      case "get-project-url":
+        await getProjectUrl();
         break;
       
       // General commands
@@ -338,6 +345,35 @@ async function deleteProject() {
   }
 }
 
+// Add URL generation functions
+async function getIssueUrl() {
+  const issueId = args[1];
+  
+  if (!issueId) {
+    console.error("Error: Issue ID or readable ID is required for get-issue-url command");
+    console.log("Usage: ./bin/youtrack-cli.ts get-issue-url <issueId|readableId>");
+    process.exit(1);
+  }
+  
+  const baseUrl = youtrack.getBaseUrl();
+  const issueUrl = new URL(`/issue/${issueId}`, baseUrl).toString();
+  console.log(issueUrl);
+}
+
+async function getProjectUrl() {
+  const projectId = args[1];
+  
+  if (!projectId) {
+    console.error("Error: Project ID or shortName is required for get-project-url command");
+    console.log("Usage: ./bin/youtrack-cli.ts get-project-url <projectId|shortName>");
+    process.exit(1);
+  }
+  
+  const baseUrl = youtrack.getBaseUrl();
+  const projectUrl = new URL(`/projects/${projectId}`, baseUrl).toString();
+  console.log(projectUrl);
+}
+
 function showHelp() {
   const defaultProject = youtrack.getDefaultProject();
   const defaultProjectMsg = defaultProject ? 
@@ -358,6 +394,7 @@ General Commands:
 Issue Commands:
   list-issues [projectId|shortName] [limit]              List issues in a project
   create-issue [projectId|shortName] <summary> [description]  Create a new issue
+  get-issue-url <issueId|readableId>     Get the URL for a specific issue
 
 Project Commands:
   list-projects                List all projects
@@ -365,6 +402,7 @@ Project Commands:
   create-project <name> <shortName> [description]  Create a new project
   update-project <projectId|shortName> [name] [shortName] [description]  Update a project
   delete-project <projectId|shortName>   Delete a project
+  get-project-url <projectId|shortName>  Get the URL for a specific project
 
 Default Project:
   When a default project is set (via YOUTRACK_MCP_PROJECT), you can omit the project parameter:
