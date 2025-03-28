@@ -4,7 +4,7 @@ import type {AxiosRequestConfig} from 'axios';
 
 const YOUTRACK_MCP_URL = process.env.YOUTRACK_MCP_URL || process.env.YOUTRACK_URL;
 const YOUTRACK_MCP_TOKEN = process.env.YOUTRACK_MCP_TOKEN || process.env.YOUTRACK_TOKEN;
-const YOUTRACK_MCP_PROJECT = process.env.YOUTRACK_MCP_PROJECT;
+
 
 
 export const AXIOS_INSTANCE = Axios.create({
@@ -36,6 +36,6 @@ export const customAxiosInstance = <T>(
       source.cancel('Query was cancelled');
     };
 
-    return promise;
+    return promise as Promise<T>;
 };
 

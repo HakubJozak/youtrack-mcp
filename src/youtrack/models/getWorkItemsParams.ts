@@ -14,11 +14,11 @@ export type GetWorkItemsParams = {
   /**
    * The start date of the time interval where the work item dates belong. Accepts a date in a string format: `YYYY-MM-DD`.
    */
-  startDate?: Date;
+  startDate?: string;
   /**
    * The end date of the time interval where the work item dates belong. Accepts a date in a string format: `YYYY-MM-DD`.
    */
-  endDate?: Date;
+  endDate?: string;
   /**
    * A timestamp in milliseconds indicating the start of the interval where the work item dates belong.
    */

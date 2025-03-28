@@ -11,16 +11,16 @@ export default defineConfig({
       client: 'axios',
       prettier: true,
       mock: false,
-      override: {
-        mutator: {
-          path: './src/services/custom-axios-instance.ts',
-          name: 'customAxiosInstance',
-        },
-        operations: {
-          // You can add operation overrides here if needed
-        },
-        useDates: true, // Convert date strings to Date objects
-      },
+      // override: {
+      //   mutator: {
+      //     path: './src/services/customAxiosInstance.ts',
+      //     name: 'customAxiosInstance',
+      //   },
+      //   operations: {
+      //     // You can add operation overrides here if needed
+      //   },
+      //   useDates: true, // Convert date strings to Date objects
+      // },
       schemas: './src/youtrack/models',
       tslint: true,
     },

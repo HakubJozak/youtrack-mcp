@@ -5,6 +5,9 @@
  * YouTrack issue tracking and project management system
  * OpenAPI spec version: 2025.1
  */
+import * as axios from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
+
 import type {
   ActivityCursorPage,
   ActivityItem,
@@ -278,8 +281,6 @@ import type {
   WorkTimeSettings,
 } from "./models";
 
-import { createCustomAxiosInstance } from "../services/custom-axios-instance";
-
 // https://stackoverflow.com/questions/49579094/typescript-conditional-types-filter-out-readonly-properties-pick-only-requir/49579497#49579497
 type IfEquals<X, Y, A = X, B = never> =
   (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
@@ -309,2811 +310,3352 @@ type NonReadonly<T> = [T] extends [UnionToIntersection<T>]
   : DistributeReadOnlyOverUnions<T>;
 
 export const getYouTrackRESTAPI = () => {
-  const getActivities = (params?: GetActivitiesParams) => {
-    return createCustomAxiosInstance<ActivityItem[]>({
-      url: `/activities`,
-      method: "GET",
-      params,
+  const getActivities = <TData = AxiosResponse<ActivityItem[]>>(
+    params?: GetActivitiesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/activities`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getActivitiesId = (id: string, params?: GetActivitiesIdParams) => {
-    return createCustomAxiosInstance<ActivityItem>({
-      url: `/activities/${id}`,
-      method: "GET",
-      params,
+  const getActivitiesId = <TData = AxiosResponse<ActivityItem>>(
+    id: string,
+    params?: GetActivitiesIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/activities/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getActivitiesPage = (params?: GetActivitiesPageParams) => {
-    return createCustomAxiosInstance<ActivityCursorPage>({
-      url: `/activitiesPage`,
-      method: "GET",
-      params,
+  const getActivitiesPage = <TData = AxiosResponse<ActivityCursorPage>>(
+    params?: GetActivitiesPageParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/activitiesPage`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminCustomFieldSettingsBundlesBuild = (
+  const getAdminCustomFieldSettingsBundlesBuild = <
+    TData = AxiosResponse<BuildBundle[]>,
+  >(
     params?: GetAdminCustomFieldSettingsBundlesBuildParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundle[]>({
-      url: `/admin/customFieldSettings/bundles/build`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/build`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesBuild = (
+  const postAdminCustomFieldSettingsBundlesBuild = <
+    TData = AxiosResponse<BuildBundle>,
+  >(
     buildBundle: NonReadonly<BuildBundle>,
     params?: PostAdminCustomFieldSettingsBundlesBuildParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundle>({
-      url: `/admin/customFieldSettings/bundles/build`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: buildBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/build`,
+      buildBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesBuildId = (
+  const getAdminCustomFieldSettingsBundlesBuildId = <
+    TData = AxiosResponse<BuildBundle>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesBuildIdParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundle>({
-      url: `/admin/customFieldSettings/bundles/build/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/build/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesBuildId = (
+  const postAdminCustomFieldSettingsBundlesBuildId = <
+    TData = AxiosResponse<BuildBundle>,
+  >(
     id: string,
     buildBundle: NonReadonly<BuildBundle>,
     params?: PostAdminCustomFieldSettingsBundlesBuildIdParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundle>({
-      url: `/admin/customFieldSettings/bundles/build/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: buildBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/build/${id}`,
+      buildBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesBuildId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/build/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminCustomFieldSettingsBundlesBuildId = <
+    TData = AxiosResponse<void>,
+  >(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/build/${id}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesBuildIdValues = (
+  const getAdminCustomFieldSettingsBundlesBuildIdValues = <
+    TData = AxiosResponse<BuildBundleElement[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesBuildIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundleElement[]>({
-      url: `/admin/customFieldSettings/bundles/build/${id}/values`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/build/${id}/values`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesBuildIdValues = (
+  const postAdminCustomFieldSettingsBundlesBuildIdValues = <
+    TData = AxiosResponse<BuildBundleElement>,
+  >(
     id: string,
     buildBundleElement: NonReadonly<BuildBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesBuildIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundleElement>({
-      url: `/admin/customFieldSettings/bundles/build/${id}/values`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: buildBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/build/${id}/values`,
+      buildBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId = (
+  const getAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId = <
+    TData = AxiosResponse<BuildBundleElement>,
+  >(
     id: string,
     buildBundleElementId: string,
     params?: GetAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementIdParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundleElement>({
-      url: `/admin/customFieldSettings/bundles/build/${id}/values/${buildBundleElementId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/build/${id}/values/${buildBundleElementId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId = (
+  const postAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId = <
+    TData = AxiosResponse<BuildBundleElement>,
+  >(
     id: string,
     buildBundleElementId: string,
     buildBundleElement: NonReadonly<BuildBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementIdParams,
-  ) => {
-    return createCustomAxiosInstance<BuildBundleElement>({
-      url: `/admin/customFieldSettings/bundles/build/${id}/values/${buildBundleElementId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: buildBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/build/${id}/values/${buildBundleElementId}`,
+      buildBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
   const deleteAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId =
-    (id: string, buildBundleElementId: string) => {
-      return createCustomAxiosInstance<void>({
-        url: `/admin/customFieldSettings/bundles/build/${id}/values/${buildBundleElementId}`,
-        method: "DELETE",
-      });
+    <TData = AxiosResponse<void>>(
+      id: string,
+      buildBundleElementId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.delete(
+        `/admin/customFieldSettings/bundles/build/${id}/values/${buildBundleElementId}`,
+        options,
+      );
     };
 
-  const getAdminCustomFieldSettingsBundlesEnum = (
+  const getAdminCustomFieldSettingsBundlesEnum = <
+    TData = AxiosResponse<EnumBundle[]>,
+  >(
     params?: GetAdminCustomFieldSettingsBundlesEnumParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundle[]>({
-      url: `/admin/customFieldSettings/bundles/enum`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/enum`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesEnum = (
+  const postAdminCustomFieldSettingsBundlesEnum = <
+    TData = AxiosResponse<EnumBundle>,
+  >(
     enumBundle: NonReadonly<EnumBundle>,
     params?: PostAdminCustomFieldSettingsBundlesEnumParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundle>({
-      url: `/admin/customFieldSettings/bundles/enum`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: enumBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/enum`,
+      enumBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesEnumId = (
+  const getAdminCustomFieldSettingsBundlesEnumId = <
+    TData = AxiosResponse<EnumBundle>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesEnumIdParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundle>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/enum/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesEnumId = (
+  const postAdminCustomFieldSettingsBundlesEnumId = <
+    TData = AxiosResponse<EnumBundle>,
+  >(
     id: string,
     enumBundle: NonReadonly<EnumBundle>,
     params?: PostAdminCustomFieldSettingsBundlesEnumIdParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundle>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: enumBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/enum/${id}`,
+      enumBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesEnumId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminCustomFieldSettingsBundlesEnumId = <
+    TData = AxiosResponse<void>,
+  >(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/enum/${id}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesEnumIdValues = (
+  const getAdminCustomFieldSettingsBundlesEnumIdValues = <
+    TData = AxiosResponse<EnumBundleElement[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesEnumIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundleElement[]>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}/values`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/enum/${id}/values`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesEnumIdValues = (
+  const postAdminCustomFieldSettingsBundlesEnumIdValues = <
+    TData = AxiosResponse<EnumBundleElement>,
+  >(
     id: string,
     enumBundleElement: NonReadonly<EnumBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesEnumIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundleElement>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}/values`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: enumBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/enum/${id}/values`,
+      enumBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId = (
+  const getAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId = <
+    TData = AxiosResponse<EnumBundleElement>,
+  >(
     id: string,
     enumBundleElementId: string,
     params?: GetAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementIdParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundleElement>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}/values/${enumBundleElementId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/enum/${id}/values/${enumBundleElementId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId = (
+  const postAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId = <
+    TData = AxiosResponse<EnumBundleElement>,
+  >(
     id: string,
     enumBundleElementId: string,
     enumBundleElement: NonReadonly<EnumBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementIdParams,
-  ) => {
-    return createCustomAxiosInstance<EnumBundleElement>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}/values/${enumBundleElementId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: enumBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/enum/${id}/values/${enumBundleElementId}`,
+      enumBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId = (
+  const deleteAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     enumBundleElementId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/enum/${id}/values/${enumBundleElementId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/enum/${id}/values/${enumBundleElementId}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesOwnedField = (
+  const getAdminCustomFieldSettingsBundlesOwnedField = <
+    TData = AxiosResponse<OwnedBundle[]>,
+  >(
     params?: GetAdminCustomFieldSettingsBundlesOwnedFieldParams,
-  ) => {
-    return createCustomAxiosInstance<OwnedBundle[]>({
-      url: `/admin/customFieldSettings/bundles/ownedField`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/ownedField`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesOwnedField = (
+  const postAdminCustomFieldSettingsBundlesOwnedField = <
+    TData = AxiosResponse<OwnedBundle>,
+  >(
     ownedBundle: NonReadonly<OwnedBundle>,
     params?: PostAdminCustomFieldSettingsBundlesOwnedFieldParams,
-  ) => {
-    return createCustomAxiosInstance<OwnedBundle>({
-      url: `/admin/customFieldSettings/bundles/ownedField`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: ownedBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/ownedField`,
+      ownedBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesOwnedFieldId = (
+  const getAdminCustomFieldSettingsBundlesOwnedFieldId = <
+    TData = AxiosResponse<OwnedBundle>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesOwnedFieldIdParams,
-  ) => {
-    return createCustomAxiosInstance<OwnedBundle>({
-      url: `/admin/customFieldSettings/bundles/ownedField/${id}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/ownedField/${id}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesOwnedFieldId = (
+  const postAdminCustomFieldSettingsBundlesOwnedFieldId = <
+    TData = AxiosResponse<OwnedBundle>,
+  >(
     id: string,
     ownedBundle: NonReadonly<OwnedBundle>,
     params?: PostAdminCustomFieldSettingsBundlesOwnedFieldIdParams,
-  ) => {
-    return createCustomAxiosInstance<OwnedBundle>({
-      url: `/admin/customFieldSettings/bundles/ownedField/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: ownedBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/ownedField/${id}`,
+      ownedBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesOwnedFieldId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/ownedField/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminCustomFieldSettingsBundlesOwnedFieldId = <
+    TData = AxiosResponse<void>,
+  >(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/ownedField/${id}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesOwnedFieldIdValues = (
+  const getAdminCustomFieldSettingsBundlesOwnedFieldIdValues = <
+    TData = AxiosResponse<OwnedBundleElement[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesOwnedFieldIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<OwnedBundleElement[]>({
-      url: `/admin/customFieldSettings/bundles/ownedField/${id}/values`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/ownedField/${id}/values`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesOwnedFieldIdValues = (
+  const postAdminCustomFieldSettingsBundlesOwnedFieldIdValues = <
+    TData = AxiosResponse<OwnedBundleElement>,
+  >(
     id: string,
     ownedBundleElement: NonReadonly<OwnedBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesOwnedFieldIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<OwnedBundleElement>({
-      url: `/admin/customFieldSettings/bundles/ownedField/${id}/values`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: ownedBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/ownedField/${id}/values`,
+      ownedBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
   const getAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementId =
-    (
+    <TData = AxiosResponse<OwnedBundleElement>>(
       id: string,
       ownedBundleElementId: string,
       params?: GetAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementIdParams,
-    ) => {
-      return createCustomAxiosInstance<OwnedBundleElement>({
-        url: `/admin/customFieldSettings/bundles/ownedField/${id}/values/${ownedBundleElementId}`,
-        method: "GET",
-        params,
-      });
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.get(
+        `/admin/customFieldSettings/bundles/ownedField/${id}/values/${ownedBundleElementId}`,
+        {
+          ...options,
+          params: { ...params, ...options?.params },
+        },
+      );
     };
 
   const postAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementId =
-    (
+    <TData = AxiosResponse<OwnedBundleElement>>(
       id: string,
       ownedBundleElementId: string,
       ownedBundleElement: NonReadonly<OwnedBundleElement>,
       params?: PostAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementIdParams,
-    ) => {
-      return createCustomAxiosInstance<OwnedBundleElement>({
-        url: `/admin/customFieldSettings/bundles/ownedField/${id}/values/${ownedBundleElementId}`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: ownedBundleElement,
-        params,
-      });
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.post(
+        `/admin/customFieldSettings/bundles/ownedField/${id}/values/${ownedBundleElementId}`,
+        ownedBundleElement,
+        {
+          ...options,
+          params: { ...params, ...options?.params },
+        },
+      );
     };
 
   const deleteAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementId =
-    (id: string, ownedBundleElementId: string) => {
-      return createCustomAxiosInstance<void>({
-        url: `/admin/customFieldSettings/bundles/ownedField/${id}/values/${ownedBundleElementId}`,
-        method: "DELETE",
-      });
+    <TData = AxiosResponse<void>>(
+      id: string,
+      ownedBundleElementId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.delete(
+        `/admin/customFieldSettings/bundles/ownedField/${id}/values/${ownedBundleElementId}`,
+        options,
+      );
     };
 
-  const getAdminCustomFieldSettingsBundlesState = (
+  const getAdminCustomFieldSettingsBundlesState = <
+    TData = AxiosResponse<StateBundle[]>,
+  >(
     params?: GetAdminCustomFieldSettingsBundlesStateParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundle[]>({
-      url: `/admin/customFieldSettings/bundles/state`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/state`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesState = (
+  const postAdminCustomFieldSettingsBundlesState = <
+    TData = AxiosResponse<StateBundle>,
+  >(
     stateBundle: NonReadonly<StateBundle>,
     params?: PostAdminCustomFieldSettingsBundlesStateParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundle>({
-      url: `/admin/customFieldSettings/bundles/state`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: stateBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/state`,
+      stateBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesStateId = (
+  const getAdminCustomFieldSettingsBundlesStateId = <
+    TData = AxiosResponse<StateBundle>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesStateIdParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundle>({
-      url: `/admin/customFieldSettings/bundles/state/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/state/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesStateId = (
+  const postAdminCustomFieldSettingsBundlesStateId = <
+    TData = AxiosResponse<StateBundle>,
+  >(
     id: string,
     stateBundle: NonReadonly<StateBundle>,
     params?: PostAdminCustomFieldSettingsBundlesStateIdParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundle>({
-      url: `/admin/customFieldSettings/bundles/state/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: stateBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/state/${id}`,
+      stateBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesStateId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/state/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminCustomFieldSettingsBundlesStateId = <
+    TData = AxiosResponse<void>,
+  >(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/state/${id}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesStateIdValues = (
+  const getAdminCustomFieldSettingsBundlesStateIdValues = <
+    TData = AxiosResponse<StateBundleElement[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesStateIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundleElement[]>({
-      url: `/admin/customFieldSettings/bundles/state/${id}/values`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/state/${id}/values`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesStateIdValues = (
+  const postAdminCustomFieldSettingsBundlesStateIdValues = <
+    TData = AxiosResponse<StateBundleElement>,
+  >(
     id: string,
     stateBundleElement: NonReadonly<StateBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesStateIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundleElement>({
-      url: `/admin/customFieldSettings/bundles/state/${id}/values`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: stateBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/state/${id}/values`,
+      stateBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId = (
+  const getAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId = <
+    TData = AxiosResponse<StateBundleElement>,
+  >(
     id: string,
     stateBundleElementId: string,
     params?: GetAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementIdParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundleElement>({
-      url: `/admin/customFieldSettings/bundles/state/${id}/values/${stateBundleElementId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/state/${id}/values/${stateBundleElementId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId = (
+  const postAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId = <
+    TData = AxiosResponse<StateBundleElement>,
+  >(
     id: string,
     stateBundleElementId: string,
     stateBundleElement: NonReadonly<StateBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementIdParams,
-  ) => {
-    return createCustomAxiosInstance<StateBundleElement>({
-      url: `/admin/customFieldSettings/bundles/state/${id}/values/${stateBundleElementId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: stateBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/state/${id}/values/${stateBundleElementId}`,
+      stateBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
   const deleteAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId =
-    (id: string, stateBundleElementId: string) => {
-      return createCustomAxiosInstance<void>({
-        url: `/admin/customFieldSettings/bundles/state/${id}/values/${stateBundleElementId}`,
-        method: "DELETE",
-      });
+    <TData = AxiosResponse<void>>(
+      id: string,
+      stateBundleElementId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.delete(
+        `/admin/customFieldSettings/bundles/state/${id}/values/${stateBundleElementId}`,
+        options,
+      );
     };
 
-  const getAdminCustomFieldSettingsBundlesUser = (
+  const getAdminCustomFieldSettingsBundlesUser = <
+    TData = AxiosResponse<UserBundle[]>,
+  >(
     params?: GetAdminCustomFieldSettingsBundlesUserParams,
-  ) => {
-    return createCustomAxiosInstance<UserBundle[]>({
-      url: `/admin/customFieldSettings/bundles/user`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/user`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesUser = (
+  const postAdminCustomFieldSettingsBundlesUser = <
+    TData = AxiosResponse<UserBundle>,
+  >(
     userBundle: NonReadonly<UserBundle>,
     params?: PostAdminCustomFieldSettingsBundlesUserParams,
-  ) => {
-    return createCustomAxiosInstance<UserBundle>({
-      url: `/admin/customFieldSettings/bundles/user`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: userBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/user`,
+      userBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesUserId = (
+  const getAdminCustomFieldSettingsBundlesUserId = <
+    TData = AxiosResponse<UserBundle>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesUserIdParams,
-  ) => {
-    return createCustomAxiosInstance<UserBundle>({
-      url: `/admin/customFieldSettings/bundles/user/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/user/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesUserId = (
+  const postAdminCustomFieldSettingsBundlesUserId = <
+    TData = AxiosResponse<UserBundle>,
+  >(
     id: string,
     userBundle: NonReadonly<UserBundle>,
     params?: PostAdminCustomFieldSettingsBundlesUserIdParams,
-  ) => {
-    return createCustomAxiosInstance<UserBundle>({
-      url: `/admin/customFieldSettings/bundles/user/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: userBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/user/${id}`,
+      userBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesUserId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/user/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminCustomFieldSettingsBundlesUserId = <
+    TData = AxiosResponse<void>,
+  >(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/user/${id}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesUserIdAggregatedUsers = (
+  const getAdminCustomFieldSettingsBundlesUserIdAggregatedUsers = <
+    TData = AxiosResponse<User[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesUserIdAggregatedUsersParams,
-  ) => {
-    return createCustomAxiosInstance<User[]>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/aggregatedUsers`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/user/${id}/aggregatedUsers`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesUserIdGroups = (
+  const getAdminCustomFieldSettingsBundlesUserIdGroups = <
+    TData = AxiosResponse<UserGroup[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesUserIdGroupsParams,
-  ) => {
-    return createCustomAxiosInstance<UserGroup[]>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/groups`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/user/${id}/groups`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesUserIdGroups = (
+  const postAdminCustomFieldSettingsBundlesUserIdGroups = <
+    TData = AxiosResponse<UserGroup>,
+  >(
     id: string,
     userGroup: NonReadonly<UserGroup>,
     params?: PostAdminCustomFieldSettingsBundlesUserIdGroupsParams,
-  ) => {
-    return createCustomAxiosInstance<UserGroup>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/groups`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: userGroup,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/user/${id}/groups`,
+      userGroup,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupId = (
+  const getAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupId = <
+    TData = AxiosResponse<UserGroup>,
+  >(
     id: string,
     userGroupId: string,
     params?: GetAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupIdParams,
-  ) => {
-    return createCustomAxiosInstance<UserGroup>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/groups/${userGroupId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/user/${id}/groups/${userGroupId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupId = (
+  const deleteAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     userGroupId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/groups/${userGroupId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/user/${id}/groups/${userGroupId}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesUserIdIndividuals = (
+  const getAdminCustomFieldSettingsBundlesUserIdIndividuals = <
+    TData = AxiosResponse<User[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesUserIdIndividualsParams,
-  ) => {
-    return createCustomAxiosInstance<User[]>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/individuals`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/user/${id}/individuals`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesUserIdIndividuals = (
+  const postAdminCustomFieldSettingsBundlesUserIdIndividuals = <
+    TData = AxiosResponse<User>,
+  >(
     id: string,
     user: NonReadonly<User>,
     params?: PostAdminCustomFieldSettingsBundlesUserIdIndividualsParams,
-  ) => {
-    return createCustomAxiosInstance<User>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/individuals`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: user,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/user/${id}/individuals`,
+      user,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesUserIdIndividualsUserId = (
+  const getAdminCustomFieldSettingsBundlesUserIdIndividualsUserId = <
+    TData = AxiosResponse<User>,
+  >(
     id: string,
     userId: string,
     params?: GetAdminCustomFieldSettingsBundlesUserIdIndividualsUserIdParams,
-  ) => {
-    return createCustomAxiosInstance<User>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/individuals/${userId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/user/${id}/individuals/${userId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesUserIdIndividualsUserId = (
+  const deleteAdminCustomFieldSettingsBundlesUserIdIndividualsUserId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     userId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/user/${id}/individuals/${userId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/user/${id}/individuals/${userId}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesVersion = (
+  const getAdminCustomFieldSettingsBundlesVersion = <
+    TData = AxiosResponse<VersionBundle[]>,
+  >(
     params?: GetAdminCustomFieldSettingsBundlesVersionParams,
-  ) => {
-    return createCustomAxiosInstance<VersionBundle[]>({
-      url: `/admin/customFieldSettings/bundles/version`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/bundles/version`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsBundlesVersion = (
+  const postAdminCustomFieldSettingsBundlesVersion = <
+    TData = AxiosResponse<VersionBundle>,
+  >(
     versionBundle: NonReadonly<VersionBundle>,
     params?: PostAdminCustomFieldSettingsBundlesVersionParams,
-  ) => {
-    return createCustomAxiosInstance<VersionBundle>({
-      url: `/admin/customFieldSettings/bundles/version`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: versionBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/version`,
+      versionBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesVersionId = (
+  const getAdminCustomFieldSettingsBundlesVersionId = <
+    TData = AxiosResponse<VersionBundle>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesVersionIdParams,
-  ) => {
-    return createCustomAxiosInstance<VersionBundle>({
-      url: `/admin/customFieldSettings/bundles/version/${id}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/version/${id}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesVersionId = (
+  const postAdminCustomFieldSettingsBundlesVersionId = <
+    TData = AxiosResponse<VersionBundle>,
+  >(
     id: string,
     versionBundle: NonReadonly<VersionBundle>,
     params?: PostAdminCustomFieldSettingsBundlesVersionIdParams,
-  ) => {
-    return createCustomAxiosInstance<VersionBundle>({
-      url: `/admin/customFieldSettings/bundles/version/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: versionBundle,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/version/${id}`,
+      versionBundle,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsBundlesVersionId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/bundles/version/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminCustomFieldSettingsBundlesVersionId = <
+    TData = AxiosResponse<void>,
+  >(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/bundles/version/${id}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsBundlesVersionIdValues = (
+  const getAdminCustomFieldSettingsBundlesVersionIdValues = <
+    TData = AxiosResponse<VersionBundleElement[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsBundlesVersionIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<VersionBundleElement[]>({
-      url: `/admin/customFieldSettings/bundles/version/${id}/values`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/bundles/version/${id}/values`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsBundlesVersionIdValues = (
+  const postAdminCustomFieldSettingsBundlesVersionIdValues = <
+    TData = AxiosResponse<VersionBundleElement>,
+  >(
     id: string,
     versionBundleElement: NonReadonly<VersionBundleElement>,
     params?: PostAdminCustomFieldSettingsBundlesVersionIdValuesParams,
-  ) => {
-    return createCustomAxiosInstance<VersionBundleElement>({
-      url: `/admin/customFieldSettings/bundles/version/${id}/values`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: versionBundleElement,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/bundles/version/${id}/values`,
+      versionBundleElement,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
   const getAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementId =
-    (
+    <TData = AxiosResponse<VersionBundleElement>>(
       id: string,
       versionBundleElementId: string,
       params?: GetAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementIdParams,
-    ) => {
-      return createCustomAxiosInstance<VersionBundleElement>({
-        url: `/admin/customFieldSettings/bundles/version/${id}/values/${versionBundleElementId}`,
-        method: "GET",
-        params,
-      });
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.get(
+        `/admin/customFieldSettings/bundles/version/${id}/values/${versionBundleElementId}`,
+        {
+          ...options,
+          params: { ...params, ...options?.params },
+        },
+      );
     };
 
   const postAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementId =
-    (
+    <TData = AxiosResponse<VersionBundleElement>>(
       id: string,
       versionBundleElementId: string,
       versionBundleElement: NonReadonly<VersionBundleElement>,
       params?: PostAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementIdParams,
-    ) => {
-      return createCustomAxiosInstance<VersionBundleElement>({
-        url: `/admin/customFieldSettings/bundles/version/${id}/values/${versionBundleElementId}`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: versionBundleElement,
-        params,
-      });
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.post(
+        `/admin/customFieldSettings/bundles/version/${id}/values/${versionBundleElementId}`,
+        versionBundleElement,
+        {
+          ...options,
+          params: { ...params, ...options?.params },
+        },
+      );
     };
 
   const deleteAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementId =
-    (id: string, versionBundleElementId: string) => {
-      return createCustomAxiosInstance<void>({
-        url: `/admin/customFieldSettings/bundles/version/${id}/values/${versionBundleElementId}`,
-        method: "DELETE",
-      });
+    <TData = AxiosResponse<void>>(
+      id: string,
+      versionBundleElementId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<TData> => {
+      return axios.default.delete(
+        `/admin/customFieldSettings/bundles/version/${id}/values/${versionBundleElementId}`,
+        options,
+      );
     };
 
-  const getAdminCustomFieldSettingsCustomFields = (
+  const getAdminCustomFieldSettingsCustomFields = <
+    TData = AxiosResponse<CustomField[]>,
+  >(
     params?: GetAdminCustomFieldSettingsCustomFieldsParams,
-  ) => {
-    return createCustomAxiosInstance<CustomField[]>({
-      url: `/admin/customFieldSettings/customFields`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/customFields`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsCustomFields = (
+  const postAdminCustomFieldSettingsCustomFields = <
+    TData = AxiosResponse<CustomField>,
+  >(
     customField: NonReadonly<CustomField>,
     params?: PostAdminCustomFieldSettingsCustomFieldsParams,
-  ) => {
-    return createCustomAxiosInstance<CustomField>({
-      url: `/admin/customFieldSettings/customFields`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: customField,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/customFields`,
+      customField,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsCustomFieldsId = (
+  const getAdminCustomFieldSettingsCustomFieldsId = <
+    TData = AxiosResponse<CustomField>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsCustomFieldsIdParams,
-  ) => {
-    return createCustomAxiosInstance<CustomField>({
-      url: `/admin/customFieldSettings/customFields/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/customFields/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminCustomFieldSettingsCustomFieldsId = (
+  const postAdminCustomFieldSettingsCustomFieldsId = <
+    TData = AxiosResponse<CustomField>,
+  >(
     id: string,
     customField: NonReadonly<CustomField>,
     params?: PostAdminCustomFieldSettingsCustomFieldsIdParams,
-  ) => {
-    return createCustomAxiosInstance<CustomField>({
-      url: `/admin/customFieldSettings/customFields/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: customField,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/customFields/${id}`,
+      customField,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminCustomFieldSettingsCustomFieldsId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/customFieldSettings/customFields/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminCustomFieldSettingsCustomFieldsId = <
+    TData = AxiosResponse<void>,
+  >(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/customFieldSettings/customFields/${id}`,
+      options,
+    );
   };
 
-  const getAdminCustomFieldSettingsCustomFieldsIdFieldDefaults = (
+  const getAdminCustomFieldSettingsCustomFieldsIdFieldDefaults = <
+    TData = AxiosResponse<CustomFieldDefaults>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsCustomFieldsIdFieldDefaultsParams,
-  ) => {
-    return createCustomAxiosInstance<CustomFieldDefaults>({
-      url: `/admin/customFieldSettings/customFields/${id}/fieldDefaults`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/customFields/${id}/fieldDefaults`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminCustomFieldSettingsCustomFieldsIdFieldDefaults = (
+  const postAdminCustomFieldSettingsCustomFieldsIdFieldDefaults = <
+    TData = AxiosResponse<CustomFieldDefaults>,
+  >(
     id: string,
     customFieldDefaults: NonReadonly<CustomFieldDefaults>,
     params?: PostAdminCustomFieldSettingsCustomFieldsIdFieldDefaultsParams,
-  ) => {
-    return createCustomAxiosInstance<CustomFieldDefaults>({
-      url: `/admin/customFieldSettings/customFields/${id}/fieldDefaults`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: customFieldDefaults,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/customFieldSettings/customFields/${id}/fieldDefaults`,
+      customFieldDefaults,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsCustomFieldsIdInstances = (
+  const getAdminCustomFieldSettingsCustomFieldsIdInstances = <
+    TData = AxiosResponse<ProjectCustomField[]>,
+  >(
     id: string,
     params?: GetAdminCustomFieldSettingsCustomFieldsIdInstancesParams,
-  ) => {
-    return createCustomAxiosInstance<ProjectCustomField[]>({
-      url: `/admin/customFieldSettings/customFields/${id}/instances`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/customFieldSettings/customFields/${id}/instances`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminCustomFieldSettingsTypes = (
+  const getAdminCustomFieldSettingsTypes = <TData = AxiosResponse<FieldType[]>>(
     params?: GetAdminCustomFieldSettingsTypesParams,
-  ) => {
-    return createCustomAxiosInstance<FieldType[]>({
-      url: `/admin/customFieldSettings/types`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/customFieldSettings/types`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminDatabaseBackupBackups = (
+  const getAdminDatabaseBackupBackups = <TData = AxiosResponse<BackupFile[]>>(
     params?: GetAdminDatabaseBackupBackupsParams,
-  ) => {
-    return createCustomAxiosInstance<BackupFile[]>({
-      url: `/admin/databaseBackup/backups`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/databaseBackup/backups`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminDatabaseBackupBackupsId = (
+  const getAdminDatabaseBackupBackupsId = <TData = AxiosResponse<BackupFile>>(
     id: string,
     params?: GetAdminDatabaseBackupBackupsIdParams,
-  ) => {
-    return createCustomAxiosInstance<BackupFile>({
-      url: `/admin/databaseBackup/backups/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/databaseBackup/backups/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminDatabaseBackupSettings = (
+  const getAdminDatabaseBackupSettings = <
+    TData = AxiosResponse<DatabaseBackupSettings>,
+  >(
     params?: GetAdminDatabaseBackupSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<DatabaseBackupSettings>({
-      url: `/admin/databaseBackup/settings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/databaseBackup/settings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminDatabaseBackupSettings = (
+  const postAdminDatabaseBackupSettings = <
+    TData = AxiosResponse<DatabaseBackupSettings>,
+  >(
     databaseBackupSettings: NonReadonly<DatabaseBackupSettings>,
     params?: PostAdminDatabaseBackupSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<DatabaseBackupSettings>({
-      url: `/admin/databaseBackup/settings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: databaseBackupSettings,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/databaseBackup/settings`,
+      databaseBackupSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminDatabaseBackupSettingsBackupStatus = (
+  const getAdminDatabaseBackupSettingsBackupStatus = <
+    TData = AxiosResponse<BackupStatus>,
+  >(
     params?: GetAdminDatabaseBackupSettingsBackupStatusParams,
-  ) => {
-    return createCustomAxiosInstance<BackupStatus>({
-      url: `/admin/databaseBackup/settings/backupStatus`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/databaseBackup/settings/backupStatus`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminGlobalSettings = (params?: GetAdminGlobalSettingsParams) => {
-    return createCustomAxiosInstance<GlobalSettings>({
-      url: `/admin/globalSettings`,
-      method: "GET",
-      params,
+  const getAdminGlobalSettings = <TData = AxiosResponse<GlobalSettings>>(
+    params?: GetAdminGlobalSettingsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/globalSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminGlobalSettings = (
+  const postAdminGlobalSettings = <TData = AxiosResponse<GlobalSettings>>(
     globalSettings: NonReadonly<GlobalSettings>,
     params?: PostAdminGlobalSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<GlobalSettings>({
-      url: `/admin/globalSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: globalSettings,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/admin/globalSettings`, globalSettings, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminGlobalSettingsAppearanceSettings = (
+  const getAdminGlobalSettingsAppearanceSettings = <
+    TData = AxiosResponse<AppearanceSettings>,
+  >(
     params?: GetAdminGlobalSettingsAppearanceSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<AppearanceSettings>({
-      url: `/admin/globalSettings/appearanceSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/globalSettings/appearanceSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminGlobalSettingsAppearanceSettings = (
+  const postAdminGlobalSettingsAppearanceSettings = <
+    TData = AxiosResponse<AppearanceSettings>,
+  >(
     appearanceSettings: NonReadonly<AppearanceSettings>,
     params?: PostAdminGlobalSettingsAppearanceSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<AppearanceSettings>({
-      url: `/admin/globalSettings/appearanceSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: appearanceSettings,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/globalSettings/appearanceSettings`,
+      appearanceSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminGlobalSettingsLicense = (
+  const getAdminGlobalSettingsLicense = <TData = AxiosResponse<License>>(
     params?: GetAdminGlobalSettingsLicenseParams,
-  ) => {
-    return createCustomAxiosInstance<License>({
-      url: `/admin/globalSettings/license`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/globalSettings/license`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminGlobalSettingsLicense = (
+  const postAdminGlobalSettingsLicense = <TData = AxiosResponse<License>>(
     license: NonReadonly<License>,
     params?: PostAdminGlobalSettingsLicenseParams,
-  ) => {
-    return createCustomAxiosInstance<License>({
-      url: `/admin/globalSettings/license`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: license,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/admin/globalSettings/license`, license, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminGlobalSettingsLocaleSettings = (
+  const getAdminGlobalSettingsLocaleSettings = <
+    TData = AxiosResponse<LocaleSettings>,
+  >(
     params?: GetAdminGlobalSettingsLocaleSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<LocaleSettings>({
-      url: `/admin/globalSettings/localeSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/globalSettings/localeSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminGlobalSettingsLocaleSettings = (
+  const postAdminGlobalSettingsLocaleSettings = <
+    TData = AxiosResponse<LocaleSettings>,
+  >(
     localeSettings: NonReadonly<LocaleSettings>,
     params?: PostAdminGlobalSettingsLocaleSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<LocaleSettings>({
-      url: `/admin/globalSettings/localeSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: localeSettings,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/globalSettings/localeSettings`,
+      localeSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminGlobalSettingsNotificationSettings = (
+  const getAdminGlobalSettingsNotificationSettings = <
+    TData = AxiosResponse<NotificationSettings>,
+  >(
     params?: GetAdminGlobalSettingsNotificationSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<NotificationSettings>({
-      url: `/admin/globalSettings/notificationSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/globalSettings/notificationSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminGlobalSettingsNotificationSettings = (
+  const postAdminGlobalSettingsNotificationSettings = <
+    TData = AxiosResponse<NotificationSettings>,
+  >(
     notificationSettings: NonReadonly<NotificationSettings>,
     params?: PostAdminGlobalSettingsNotificationSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<NotificationSettings>({
-      url: `/admin/globalSettings/notificationSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: notificationSettings,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/globalSettings/notificationSettings`,
+      notificationSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminGlobalSettingsRestSettings = (
+  const getAdminGlobalSettingsRestSettings = <
+    TData = AxiosResponse<RestCorsSettings>,
+  >(
     params?: GetAdminGlobalSettingsRestSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<RestCorsSettings>({
-      url: `/admin/globalSettings/restSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/globalSettings/restSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminGlobalSettingsRestSettings = (
+  const postAdminGlobalSettingsRestSettings = <
+    TData = AxiosResponse<RestCorsSettings>,
+  >(
     restCorsSettings: NonReadonly<RestCorsSettings>,
     params?: PostAdminGlobalSettingsRestSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<RestCorsSettings>({
-      url: `/admin/globalSettings/restSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: restCorsSettings,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/globalSettings/restSettings`,
+      restCorsSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminGlobalSettingsSystemSettings = (
+  const getAdminGlobalSettingsSystemSettings = <
+    TData = AxiosResponse<SystemSettings>,
+  >(
     params?: GetAdminGlobalSettingsSystemSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<SystemSettings>({
-      url: `/admin/globalSettings/systemSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/globalSettings/systemSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminGlobalSettingsSystemSettings = (
+  const postAdminGlobalSettingsSystemSettings = <
+    TData = AxiosResponse<SystemSettings>,
+  >(
     systemSettings: NonReadonly<SystemSettings>,
     params?: PostAdminGlobalSettingsSystemSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<SystemSettings>({
-      url: `/admin/globalSettings/systemSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: systemSettings,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/globalSettings/systemSettings`,
+      systemSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
+  };
+
+  const getAdminProjects = <TData = AxiosResponse<Project[]>>(
+    params?: GetAdminProjectsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/projects`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminProjects = (params?: GetAdminProjectsParams) => {
-    return createCustomAxiosInstance<Project[]>({
-      url: `/admin/projects`,
-      method: "GET",
-      params,
-    });
-  };
-
-  const postAdminProjects = (
+  const postAdminProjects = <TData = AxiosResponse<Project>>(
     project: NonReadonly<Project>,
     params?: PostAdminProjectsParams,
-  ) => {
-    return createCustomAxiosInstance<Project>({
-      url: `/admin/projects`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: project,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/admin/projects`, project, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminProjectsId = (
+  const getAdminProjectsId = <TData = AxiosResponse<Project>>(
     id: string,
     params?: GetAdminProjectsIdParams,
-  ) => {
-    return createCustomAxiosInstance<Project>({
-      url: `/admin/projects/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/projects/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminProjectsId = (
+  const postAdminProjectsId = <TData = AxiosResponse<Project>>(
     id: string,
     project: NonReadonly<Project>,
     params?: PostAdminProjectsIdParams,
-  ) => {
-    return createCustomAxiosInstance<Project>({
-      url: `/admin/projects/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: project,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/admin/projects/${id}`, project, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteAdminProjectsId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/projects/${id}`,
-      method: "DELETE",
-    });
+  const deleteAdminProjectsId = <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/admin/projects/${id}`, options);
   };
 
-  const getAdminProjectsIdArticles = (
+  const getAdminProjectsIdArticles = <TData = AxiosResponse<Article[]>>(
     id: string,
     params?: GetAdminProjectsIdArticlesParams,
-  ) => {
-    return createCustomAxiosInstance<Article[]>({
-      url: `/admin/projects/${id}/articles`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/projects/${id}/articles`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminProjectsIdCustomFields = (
+  const getAdminProjectsIdCustomFields = <
+    TData = AxiosResponse<ProjectCustomField[]>,
+  >(
     id: string,
     params?: GetAdminProjectsIdCustomFieldsParams,
-  ) => {
-    return createCustomAxiosInstance<ProjectCustomField[]>({
-      url: `/admin/projects/${id}/customFields`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/projects/${id}/customFields`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminProjectsIdCustomFields = (
+  const postAdminProjectsIdCustomFields = <
+    TData = AxiosResponse<ProjectCustomField>,
+  >(
     id: string,
     projectCustomField: NonReadonly<ProjectCustomField>,
     params?: PostAdminProjectsIdCustomFieldsParams,
-  ) => {
-    return createCustomAxiosInstance<ProjectCustomField>({
-      url: `/admin/projects/${id}/customFields`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: projectCustomField,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/projects/${id}/customFields`,
+      projectCustomField,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminProjectsIdCustomFieldsProjectCustomFieldId = (
+  const getAdminProjectsIdCustomFieldsProjectCustomFieldId = <
+    TData = AxiosResponse<ProjectCustomField>,
+  >(
     id: string,
     projectCustomFieldId: string,
     params?: GetAdminProjectsIdCustomFieldsProjectCustomFieldIdParams,
-  ) => {
-    return createCustomAxiosInstance<ProjectCustomField>({
-      url: `/admin/projects/${id}/customFields/${projectCustomFieldId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/projects/${id}/customFields/${projectCustomFieldId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminProjectsIdCustomFieldsProjectCustomFieldId = (
+  const postAdminProjectsIdCustomFieldsProjectCustomFieldId = <
+    TData = AxiosResponse<ProjectCustomField>,
+  >(
     id: string,
     projectCustomFieldId: string,
     projectCustomField: NonReadonly<ProjectCustomField>,
     params?: PostAdminProjectsIdCustomFieldsProjectCustomFieldIdParams,
-  ) => {
-    return createCustomAxiosInstance<ProjectCustomField>({
-      url: `/admin/projects/${id}/customFields/${projectCustomFieldId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: projectCustomField,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/projects/${id}/customFields/${projectCustomFieldId}`,
+      projectCustomField,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminProjectsIdCustomFieldsProjectCustomFieldId = (
+  const deleteAdminProjectsIdCustomFieldsProjectCustomFieldId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     projectCustomFieldId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/projects/${id}/customFields/${projectCustomFieldId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/projects/${id}/customFields/${projectCustomFieldId}`,
+      options,
+    );
   };
 
-  const getAdminProjectsIdIssues = (
+  const getAdminProjectsIdIssues = <TData = AxiosResponse<Issue[]>>(
     id: string,
     params?: GetAdminProjectsIdIssuesParams,
-  ) => {
-    return createCustomAxiosInstance<Issue[]>({
-      url: `/admin/projects/${id}/issues`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/projects/${id}/issues`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminProjectsIdIssues = (
+  const postAdminProjectsIdIssues = <TData = AxiosResponse<Issue>>(
     id: string,
     issue: NonReadonly<Issue>,
     params?: PostAdminProjectsIdIssuesParams,
-  ) => {
-    return createCustomAxiosInstance<Issue>({
-      url: `/admin/projects/${id}/issues`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issue,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/admin/projects/${id}/issues`, issue, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminProjectsIdIssuesIssueId = (
+  const getAdminProjectsIdIssuesIssueId = <TData = AxiosResponse<Issue>>(
     id: string,
     issueId: string,
     params?: GetAdminProjectsIdIssuesIssueIdParams,
-  ) => {
-    return createCustomAxiosInstance<Issue>({
-      url: `/admin/projects/${id}/issues/${issueId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/projects/${id}/issues/${issueId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminProjectsIdIssuesIssueId = (
+  const postAdminProjectsIdIssuesIssueId = <TData = AxiosResponse<Issue>>(
     id: string,
     issueId: string,
     issue: NonReadonly<Issue>,
     params?: PostAdminProjectsIdIssuesIssueIdParams,
-  ) => {
-    return createCustomAxiosInstance<Issue>({
-      url: `/admin/projects/${id}/issues/${issueId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issue,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/projects/${id}/issues/${issueId}`,
+      issue,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminProjectsIdIssuesIssueId = (id: string, issueId: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/projects/${id}/issues/${issueId}`,
-      method: "DELETE",
-    });
+  const deleteAdminProjectsIdIssuesIssueId = <TData = AxiosResponse<void>>(
+    id: string,
+    issueId: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/projects/${id}/issues/${issueId}`,
+      options,
+    );
   };
 
-  const getAdminProjectsIdTimeTrackingSettings = (
+  const getAdminProjectsIdTimeTrackingSettings = <
+    TData = AxiosResponse<ProjectTimeTrackingSettings>,
+  >(
     id: string,
     params?: GetAdminProjectsIdTimeTrackingSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<ProjectTimeTrackingSettings>({
-      url: `/admin/projects/${id}/timeTrackingSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/projects/${id}/timeTrackingSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminProjectsIdTimeTrackingSettings = (
+  const postAdminProjectsIdTimeTrackingSettings = <
+    TData = AxiosResponse<ProjectTimeTrackingSettings>,
+  >(
     id: string,
     projectTimeTrackingSettings: NonReadonly<ProjectTimeTrackingSettings>,
     params?: PostAdminProjectsIdTimeTrackingSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<ProjectTimeTrackingSettings>({
-      url: `/admin/projects/${id}/timeTrackingSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: projectTimeTrackingSettings,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/projects/${id}/timeTrackingSettings`,
+      projectTimeTrackingSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminProjectsIdTimeTrackingSettingsWorkItemTypes = (
+  const getAdminProjectsIdTimeTrackingSettingsWorkItemTypes = <
+    TData = AxiosResponse<WorkItemType[]>,
+  >(
     id: string,
     params?: GetAdminProjectsIdTimeTrackingSettingsWorkItemTypesParams,
-  ) => {
-    return createCustomAxiosInstance<WorkItemType[]>({
-      url: `/admin/projects/${id}/timeTrackingSettings/workItemTypes`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/projects/${id}/timeTrackingSettings/workItemTypes`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminProjectsIdTimeTrackingSettingsWorkItemTypes = (
+  const postAdminProjectsIdTimeTrackingSettingsWorkItemTypes = <
+    TData = AxiosResponse<WorkItemType>,
+  >(
     id: string,
     workItemType: NonReadonly<WorkItemType>,
     params?: PostAdminProjectsIdTimeTrackingSettingsWorkItemTypesParams,
-  ) => {
-    return createCustomAxiosInstance<WorkItemType>({
-      url: `/admin/projects/${id}/timeTrackingSettings/workItemTypes`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: workItemType,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/projects/${id}/timeTrackingSettings/workItemTypes`,
+      workItemType,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeId = (
+  const getAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeId = <
+    TData = AxiosResponse<WorkItemType>,
+  >(
     id: string,
     workItemTypeId: string,
     params?: GetAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeIdParams,
-  ) => {
-    return createCustomAxiosInstance<WorkItemType>({
-      url: `/admin/projects/${id}/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/projects/${id}/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeId = (
+  const deleteAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     workItemTypeId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/projects/${id}/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
-      method: "DELETE",
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/projects/${id}/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
+      options,
+    );
+  };
+
+  const getAdminTelemetry = <TData = AxiosResponse<Telemetry>>(
+    params?: GetAdminTelemetryParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/telemetry`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminTelemetry = (params?: GetAdminTelemetryParams) => {
-    return createCustomAxiosInstance<Telemetry>({
-      url: `/admin/telemetry`,
-      method: "GET",
-      params,
-    });
-  };
-
-  const getAdminTimeTrackingSettings = (
+  const getAdminTimeTrackingSettings = <
+    TData = AxiosResponse<GlobalTimeTrackingSettings>,
+  >(
     params?: GetAdminTimeTrackingSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<GlobalTimeTrackingSettings>({
-      url: `/admin/timeTrackingSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/timeTrackingSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAdminTimeTrackingSettingsWorkItemTypes = (
+  const getAdminTimeTrackingSettingsWorkItemTypes = <
+    TData = AxiosResponse<WorkItemType[]>,
+  >(
     params?: GetAdminTimeTrackingSettingsWorkItemTypesParams,
-  ) => {
-    return createCustomAxiosInstance<WorkItemType[]>({
-      url: `/admin/timeTrackingSettings/workItemTypes`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/timeTrackingSettings/workItemTypes`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminTimeTrackingSettingsWorkItemTypes = (
+  const postAdminTimeTrackingSettingsWorkItemTypes = <
+    TData = AxiosResponse<WorkItemType>,
+  >(
     workItemType: NonReadonly<WorkItemType>,
     params?: PostAdminTimeTrackingSettingsWorkItemTypesParams,
-  ) => {
-    return createCustomAxiosInstance<WorkItemType>({
-      url: `/admin/timeTrackingSettings/workItemTypes`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: workItemType,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/timeTrackingSettings/workItemTypes`,
+      workItemType,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId = (
+  const getAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId = <
+    TData = AxiosResponse<WorkItemType>,
+  >(
     workItemTypeId: string,
     params?: GetAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeIdParams,
-  ) => {
-    return createCustomAxiosInstance<WorkItemType>({
-      url: `/admin/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/admin/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId = (
+  const postAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId = <
+    TData = AxiosResponse<WorkItemType>,
+  >(
     workItemTypeId: string,
     workItemType: NonReadonly<WorkItemType>,
     params?: PostAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeIdParams,
-  ) => {
-    return createCustomAxiosInstance<WorkItemType>({
-      url: `/admin/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: workItemType,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
+      workItemType,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId = (
+  const deleteAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId = <
+    TData = AxiosResponse<void>,
+  >(
     workItemTypeId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/admin/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/admin/timeTrackingSettings/workItemTypes/${workItemTypeId}`,
+      options,
+    );
   };
 
-  const getAdminTimeTrackingSettingsWorkTimeSettings = (
+  const getAdminTimeTrackingSettingsWorkTimeSettings = <
+    TData = AxiosResponse<WorkTimeSettings>,
+  >(
     params?: GetAdminTimeTrackingSettingsWorkTimeSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<WorkTimeSettings>({
-      url: `/admin/timeTrackingSettings/workTimeSettings`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/admin/timeTrackingSettings/workTimeSettings`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAdminTimeTrackingSettingsWorkTimeSettings = (
+  const postAdminTimeTrackingSettingsWorkTimeSettings = <
+    TData = AxiosResponse<WorkTimeSettings>,
+  >(
     workTimeSettings: NonReadonly<WorkTimeSettings>,
     params?: PostAdminTimeTrackingSettingsWorkTimeSettingsParams,
-  ) => {
-    return createCustomAxiosInstance<WorkTimeSettings>({
-      url: `/admin/timeTrackingSettings/workTimeSettings`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: workTimeSettings,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/admin/timeTrackingSettings/workTimeSettings`,
+      workTimeSettings,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
+  };
+
+  const getAgiles = <TData = AxiosResponse<Agile[]>>(
+    params?: GetAgilesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/agiles`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAgiles = (params?: GetAgilesParams) => {
-    return createCustomAxiosInstance<Agile[]>({
-      url: `/agiles`,
-      method: "GET",
-      params,
+  const postAgiles = <TData = AxiosResponse<Agile>>(
+    agile: NonReadonly<Agile>,
+    params?: PostAgilesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/agiles`, agile, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAgiles = (agile: NonReadonly<Agile>, params?: PostAgilesParams) => {
-    return createCustomAxiosInstance<Agile>({
-      url: `/agiles`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: agile,
-      params,
+  const getAgilesId = <TData = AxiosResponse<Agile>>(
+    id: string,
+    params?: GetAgilesIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/agiles/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAgilesId = (id: string, params?: GetAgilesIdParams) => {
-    return createCustomAxiosInstance<Agile>({
-      url: `/agiles/${id}`,
-      method: "GET",
-      params,
-    });
-  };
-
-  const postAgilesId = (
+  const postAgilesId = <TData = AxiosResponse<Agile>>(
     id: string,
     agile: NonReadonly<Agile>,
     params?: PostAgilesIdParams,
-  ) => {
-    return createCustomAxiosInstance<Agile>({
-      url: `/agiles/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: agile,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/agiles/${id}`, agile, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteAgilesId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/agiles/${id}`,
-      method: "DELETE",
-    });
+  const deleteAgilesId = <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/agiles/${id}`, options);
   };
 
-  const getAgilesIdSprints = (
+  const getAgilesIdSprints = <TData = AxiosResponse<Sprint[]>>(
     id: string,
     params?: GetAgilesIdSprintsParams,
-  ) => {
-    return createCustomAxiosInstance<Sprint[]>({
-      url: `/agiles/${id}/sprints`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/agiles/${id}/sprints`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAgilesIdSprints = (
+  const postAgilesIdSprints = <TData = AxiosResponse<Sprint>>(
     id: string,
     sprint: NonReadonly<Sprint>,
     params?: PostAgilesIdSprintsParams,
-  ) => {
-    return createCustomAxiosInstance<Sprint>({
-      url: `/agiles/${id}/sprints`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: sprint,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/agiles/${id}/sprints`, sprint, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getAgilesIdSprintsSprintId = (
+  const getAgilesIdSprintsSprintId = <TData = AxiosResponse<Sprint>>(
     id: string,
     sprintId: string,
     params?: GetAgilesIdSprintsSprintIdParams,
-  ) => {
-    return createCustomAxiosInstance<Sprint>({
-      url: `/agiles/${id}/sprints/${sprintId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/agiles/${id}/sprints/${sprintId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postAgilesIdSprintsSprintId = (
+  const postAgilesIdSprintsSprintId = <TData = AxiosResponse<Sprint>>(
     id: string,
     sprintId: string,
     sprint: NonReadonly<Sprint>,
     params?: PostAgilesIdSprintsSprintIdParams,
-  ) => {
-    return createCustomAxiosInstance<Sprint>({
-      url: `/agiles/${id}/sprints/${sprintId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: sprint,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/agiles/${id}/sprints/${sprintId}`, sprint, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteAgilesIdSprintsSprintId = (id: string, sprintId: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/agiles/${id}/sprints/${sprintId}`,
-      method: "DELETE",
+  const deleteAgilesIdSprintsSprintId = <TData = AxiosResponse<void>>(
+    id: string,
+    sprintId: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/agiles/${id}/sprints/${sprintId}`, options);
+  };
+
+  const getArticles = <TData = AxiosResponse<Article[]>>(
+    params?: GetArticlesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getArticles = (params?: GetArticlesParams) => {
-    return createCustomAxiosInstance<Article[]>({
-      url: `/articles`,
-      method: "GET",
-      params,
-    });
-  };
-
-  const postArticles = (
+  const postArticles = <TData = AxiosResponse<Article>>(
     article: NonReadonly<Article>,
     params?: PostArticlesParams,
-  ) => {
-    return createCustomAxiosInstance<Article>({
-      url: `/articles`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: article,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/articles`, article, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getArticlesId = (id: string, params?: GetArticlesIdParams) => {
-    return createCustomAxiosInstance<Article>({
-      url: `/articles/${id}`,
-      method: "GET",
-      params,
+  const getArticlesId = <TData = AxiosResponse<Article>>(
+    id: string,
+    params?: GetArticlesIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postArticlesId = (
+  const postArticlesId = <TData = AxiosResponse<Article>>(
     id: string,
     article: NonReadonly<Article>,
     params?: PostArticlesIdParams,
-  ) => {
-    return createCustomAxiosInstance<Article>({
-      url: `/articles/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: article,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/articles/${id}`, article, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteArticlesId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/articles/${id}`,
-      method: "DELETE",
-    });
+  const deleteArticlesId = <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/articles/${id}`, options);
   };
 
-  const getArticlesIdAttachments = (
+  const getArticlesIdAttachments = <TData = AxiosResponse<ArticleAttachment[]>>(
     id: string,
     params?: GetArticlesIdAttachmentsParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleAttachment[]>({
-      url: `/articles/${id}/attachments`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/attachments`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postArticlesIdAttachments = (
+  const postArticlesIdAttachments = <TData = AxiosResponse<ArticleAttachment>>(
     id: string,
     articleAttachment: NonReadonly<ArticleAttachment>,
     params?: PostArticlesIdAttachmentsParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleAttachment>({
-      url: `/articles/${id}/attachments`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: articleAttachment,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/articles/${id}/attachments`,
+      articleAttachment,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getArticlesIdAttachmentsArticleAttachmentId = (
+  const getArticlesIdAttachmentsArticleAttachmentId = <
+    TData = AxiosResponse<ArticleAttachment>,
+  >(
     id: string,
     articleAttachmentId: string,
     params?: GetArticlesIdAttachmentsArticleAttachmentIdParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleAttachment>({
-      url: `/articles/${id}/attachments/${articleAttachmentId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/articles/${id}/attachments/${articleAttachmentId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postArticlesIdAttachmentsArticleAttachmentId = (
+  const postArticlesIdAttachmentsArticleAttachmentId = <
+    TData = AxiosResponse<ArticleAttachment>,
+  >(
     id: string,
     articleAttachmentId: string,
     articleAttachment: NonReadonly<ArticleAttachment>,
     params?: PostArticlesIdAttachmentsArticleAttachmentIdParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleAttachment>({
-      url: `/articles/${id}/attachments/${articleAttachmentId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: articleAttachment,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/articles/${id}/attachments/${articleAttachmentId}`,
+      articleAttachment,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteArticlesIdAttachmentsArticleAttachmentId = (
+  const deleteArticlesIdAttachmentsArticleAttachmentId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     articleAttachmentId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/articles/${id}/attachments/${articleAttachmentId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/articles/${id}/attachments/${articleAttachmentId}`,
+      options,
+    );
   };
 
-  const getArticlesIdChildArticles = (
+  const getArticlesIdChildArticles = <TData = AxiosResponse<Article[]>>(
     id: string,
     params?: GetArticlesIdChildArticlesParams,
-  ) => {
-    return createCustomAxiosInstance<Article[]>({
-      url: `/articles/${id}/childArticles`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/childArticles`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postArticlesIdChildArticles = (
+  const postArticlesIdChildArticles = <TData = AxiosResponse<Article>>(
     id: string,
     article: NonReadonly<Article>,
     params?: PostArticlesIdChildArticlesParams,
-  ) => {
-    return createCustomAxiosInstance<Article>({
-      url: `/articles/${id}/childArticles`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: article,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/articles/${id}/childArticles`, article, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getArticlesIdChildArticlesArticleId = (
+  const getArticlesIdChildArticlesArticleId = <TData = AxiosResponse<Article>>(
     id: string,
     articleId: string,
     params?: GetArticlesIdChildArticlesArticleIdParams,
-  ) => {
-    return createCustomAxiosInstance<Article>({
-      url: `/articles/${id}/childArticles/${articleId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/childArticles/${articleId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postArticlesIdChildArticlesArticleId = (
+  const postArticlesIdChildArticlesArticleId = <TData = AxiosResponse<Article>>(
     id: string,
     articleId: string,
     article: NonReadonly<Article>,
     params?: PostArticlesIdChildArticlesArticleIdParams,
-  ) => {
-    return createCustomAxiosInstance<Article>({
-      url: `/articles/${id}/childArticles/${articleId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: article,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/articles/${id}/childArticles/${articleId}`,
+      article,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteArticlesIdChildArticlesArticleId = (
+  const deleteArticlesIdChildArticlesArticleId = <TData = AxiosResponse<void>>(
     id: string,
     articleId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/articles/${id}/childArticles/${articleId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/articles/${id}/childArticles/${articleId}`,
+      options,
+    );
   };
 
-  const getArticlesIdComments = (
+  const getArticlesIdComments = <TData = AxiosResponse<ArticleComment[]>>(
     id: string,
     params?: GetArticlesIdCommentsParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleComment[]>({
-      url: `/articles/${id}/comments`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/comments`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postArticlesIdComments = (
+  const postArticlesIdComments = <TData = AxiosResponse<ArticleComment>>(
     id: string,
     articleComment: NonReadonly<ArticleComment>,
     params?: PostArticlesIdCommentsParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleComment>({
-      url: `/articles/${id}/comments`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: articleComment,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/articles/${id}/comments`, articleComment, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getArticlesIdCommentsArticleCommentId = (
+  const getArticlesIdCommentsArticleCommentId = <
+    TData = AxiosResponse<ArticleComment>,
+  >(
     id: string,
     articleCommentId: string,
     params?: GetArticlesIdCommentsArticleCommentIdParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleComment>({
-      url: `/articles/${id}/comments/${articleCommentId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/comments/${articleCommentId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postArticlesIdCommentsArticleCommentId = (
+  const postArticlesIdCommentsArticleCommentId = <
+    TData = AxiosResponse<ArticleComment>,
+  >(
     id: string,
     articleCommentId: string,
     articleComment: NonReadonly<ArticleComment>,
     params?: PostArticlesIdCommentsArticleCommentIdParams,
-  ) => {
-    return createCustomAxiosInstance<ArticleComment>({
-      url: `/articles/${id}/comments/${articleCommentId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: articleComment,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/articles/${id}/comments/${articleCommentId}`,
+      articleComment,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteArticlesIdCommentsArticleCommentId = (
+  const deleteArticlesIdCommentsArticleCommentId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     articleCommentId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/articles/${id}/comments/${articleCommentId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/articles/${id}/comments/${articleCommentId}`,
+      options,
+    );
   };
 
-  const getArticlesIdCommentsArticleCommentIdReactions = (
+  const getArticlesIdCommentsArticleCommentIdReactions = <
+    TData = AxiosResponse<Reaction[]>,
+  >(
     id: string,
     articleCommentId: string,
     params?: GetArticlesIdCommentsArticleCommentIdReactionsParams,
-  ) => {
-    return createCustomAxiosInstance<Reaction[]>({
-      url: `/articles/${id}/comments/${articleCommentId}/reactions`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/articles/${id}/comments/${articleCommentId}/reactions`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postArticlesIdCommentsArticleCommentIdReactions = (
+  const postArticlesIdCommentsArticleCommentIdReactions = <
+    TData = AxiosResponse<Reaction>,
+  >(
     id: string,
     articleCommentId: string,
     reaction: NonReadonly<Reaction>,
     params?: PostArticlesIdCommentsArticleCommentIdReactionsParams,
-  ) => {
-    return createCustomAxiosInstance<Reaction>({
-      url: `/articles/${id}/comments/${articleCommentId}/reactions`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: reaction,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/articles/${id}/comments/${articleCommentId}/reactions`,
+      reaction,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getArticlesIdCommentsArticleCommentIdReactionsReactionId = (
+  const getArticlesIdCommentsArticleCommentIdReactionsReactionId = <
+    TData = AxiosResponse<Reaction>,
+  >(
     id: string,
     articleCommentId: string,
     reactionId: string,
     params?: GetArticlesIdCommentsArticleCommentIdReactionsReactionIdParams,
-  ) => {
-    return createCustomAxiosInstance<Reaction>({
-      url: `/articles/${id}/comments/${articleCommentId}/reactions/${reactionId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/articles/${id}/comments/${articleCommentId}/reactions/${reactionId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteArticlesIdCommentsArticleCommentIdReactionsReactionId = (
+  const deleteArticlesIdCommentsArticleCommentIdReactionsReactionId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     articleCommentId: string,
     reactionId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/articles/${id}/comments/${articleCommentId}/reactions/${reactionId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/articles/${id}/comments/${articleCommentId}/reactions/${reactionId}`,
+      options,
+    );
   };
 
-  const getArticlesIdParentArticle = (
+  const getArticlesIdParentArticle = <TData = AxiosResponse<Article>>(
     id: string,
     params?: GetArticlesIdParentArticleParams,
-  ) => {
-    return createCustomAxiosInstance<Article>({
-      url: `/articles/${id}/parentArticle`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/parentArticle`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getArticlesIdTags = (id: string, params?: GetArticlesIdTagsParams) => {
-    return createCustomAxiosInstance<Tag[]>({
-      url: `/articles/${id}/tags`,
-      method: "GET",
-      params,
+  const getArticlesIdTags = <TData = AxiosResponse<Tag[]>>(
+    id: string,
+    params?: GetArticlesIdTagsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/tags`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postArticlesIdTags = (
+  const postArticlesIdTags = <TData = AxiosResponse<Tag>>(
     id: string,
     tag: NonReadonly<Tag>,
     params?: PostArticlesIdTagsParams,
-  ) => {
-    return createCustomAxiosInstance<Tag>({
-      url: `/articles/${id}/tags`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: tag,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/articles/${id}/tags`, tag, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getArticlesIdTagsTagId = (
+  const getArticlesIdTagsTagId = <TData = AxiosResponse<Tag>>(
     id: string,
     tagId: string,
     params?: GetArticlesIdTagsTagIdParams,
-  ) => {
-    return createCustomAxiosInstance<Tag>({
-      url: `/articles/${id}/tags/${tagId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/articles/${id}/tags/${tagId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteArticlesIdTagsTagId = (id: string, tagId: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/articles/${id}/tags/${tagId}`,
-      method: "DELETE",
-    });
+  const deleteArticlesIdTagsTagId = <TData = AxiosResponse<void>>(
+    id: string,
+    tagId: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/articles/${id}/tags/${tagId}`, options);
   };
 
-  const postCommands = (
+  const postCommands = <TData = AxiosResponse<CommandList>>(
     commandList: NonReadonly<CommandList>,
     params?: PostCommandsParams,
-  ) => {
-    return createCustomAxiosInstance<CommandList>({
-      url: `/commands`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: commandList,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/commands`, commandList, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postCommandsAssist = (
+  const postCommandsAssist = <TData = AxiosResponse<CommandList>>(
     commandList: NonReadonly<CommandList>,
     params?: PostCommandsAssistParams,
-  ) => {
-    return createCustomAxiosInstance<CommandList>({
-      url: `/commands/assist`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: commandList,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/commands/assist`, commandList, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getGroups = (params?: GetGroupsParams) => {
-    return createCustomAxiosInstance<UserGroup[]>({
-      url: `/groups`,
-      method: "GET",
-      params,
+  const getGroups = <TData = AxiosResponse<UserGroup[]>>(
+    params?: GetGroupsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/groups`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getGroupsId = (id: string, params?: GetGroupsIdParams) => {
-    return createCustomAxiosInstance<UserGroup>({
-      url: `/groups/${id}`,
-      method: "GET",
-      params,
+  const getGroupsId = <TData = AxiosResponse<UserGroup>>(
+    id: string,
+    params?: GetGroupsIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/groups/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssueLinkTypes = (params?: GetIssueLinkTypesParams) => {
-    return createCustomAxiosInstance<IssueLinkType[]>({
-      url: `/issueLinkTypes`,
-      method: "GET",
-      params,
+  const getIssueLinkTypes = <TData = AxiosResponse<IssueLinkType[]>>(
+    params?: GetIssueLinkTypesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issueLinkTypes`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssueLinkTypes = (
+  const postIssueLinkTypes = <TData = AxiosResponse<IssueLinkType>>(
     issueLinkType: NonReadonly<IssueLinkType>,
     params?: PostIssueLinkTypesParams,
-  ) => {
-    return createCustomAxiosInstance<IssueLinkType>({
-      url: `/issueLinkTypes`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueLinkType,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issueLinkTypes`, issueLinkType, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssueLinkTypesId = (
+  const getIssueLinkTypesId = <TData = AxiosResponse<IssueLinkType>>(
     id: string,
     params?: GetIssueLinkTypesIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueLinkType>({
-      url: `/issueLinkTypes/${id}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issueLinkTypes/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssueLinkTypesId = (
+  const postIssueLinkTypesId = <TData = AxiosResponse<IssueLinkType>>(
     id: string,
     issueLinkType: NonReadonly<IssueLinkType>,
     params?: PostIssueLinkTypesIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueLinkType>({
-      url: `/issueLinkTypes/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueLinkType,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issueLinkTypes/${id}`, issueLinkType, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteIssueLinkTypesId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issueLinkTypes/${id}`,
-      method: "DELETE",
+  const deleteIssueLinkTypesId = <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/issueLinkTypes/${id}`, options);
+  };
+
+  const getIssues = <TData = AxiosResponse<Issue[]>>(
+    params?: GetIssuesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssues = (params?: GetIssuesParams) => {
-    return createCustomAxiosInstance<Issue[]>({
-      url: `/issues`,
-      method: "GET",
-      params,
+  const postIssues = <TData = AxiosResponse<Issue>>(
+    issue: NonReadonly<Issue>,
+    params?: PostIssuesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issues`, issue, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssues = (issue: NonReadonly<Issue>, params?: PostIssuesParams) => {
-    return createCustomAxiosInstance<Issue>({
-      url: `/issues`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issue,
-      params,
+  const getIssuesId = <TData = AxiosResponse<Issue>>(
+    id: string,
+    params?: GetIssuesIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesId = (id: string, params?: GetIssuesIdParams) => {
-    return createCustomAxiosInstance<Issue>({
-      url: `/issues/${id}`,
-      method: "GET",
-      params,
-    });
-  };
-
-  const postIssuesId = (
+  const postIssuesId = <TData = AxiosResponse<Issue>>(
     id: string,
     issue: NonReadonly<Issue>,
     params?: PostIssuesIdParams,
-  ) => {
-    return createCustomAxiosInstance<Issue>({
-      url: `/issues/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issue,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issues/${id}`, issue, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteIssuesId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}`,
-      method: "DELETE",
-    });
+  const deleteIssuesId = <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/issues/${id}`, options);
   };
 
-  const getIssuesIdActivities = (
+  const getIssuesIdActivities = <TData = AxiosResponse<ActivityItem[]>>(
     id: string,
     params?: GetIssuesIdActivitiesParams,
-  ) => {
-    return createCustomAxiosInstance<ActivityItem[]>({
-      url: `/issues/${id}/activities`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/activities`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdActivitiesActivityItemId = (
+  const getIssuesIdActivitiesActivityItemId = <
+    TData = AxiosResponse<ActivityItem>,
+  >(
     id: string,
     activityItemId: string,
     params?: GetIssuesIdActivitiesActivityItemIdParams,
-  ) => {
-    return createCustomAxiosInstance<ActivityItem>({
-      url: `/issues/${id}/activities/${activityItemId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/activities/${activityItemId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdActivitiesPage = (
+  const getIssuesIdActivitiesPage = <TData = AxiosResponse<ActivityCursorPage>>(
     id: string,
     params?: GetIssuesIdActivitiesPageParams,
-  ) => {
-    return createCustomAxiosInstance<ActivityCursorPage>({
-      url: `/issues/${id}/activitiesPage`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/activitiesPage`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdAttachments = (
+  const getIssuesIdAttachments = <TData = AxiosResponse<IssueAttachment[]>>(
     id: string,
     params?: GetIssuesIdAttachmentsParams,
-  ) => {
-    return createCustomAxiosInstance<IssueAttachment[]>({
-      url: `/issues/${id}/attachments`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/attachments`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdAttachments = (
+  const postIssuesIdAttachments = <TData = AxiosResponse<IssueAttachment[]>>(
     id: string,
     postIssuesIdAttachmentsBody: PostIssuesIdAttachmentsBody,
     params?: PostIssuesIdAttachmentsParams,
-  ) => {
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
     const formData = new FormData();
     if (postIssuesIdAttachmentsBody["files[0]"] !== undefined) {
       formData.append("files[0]", postIssuesIdAttachmentsBody["files[0]"]);
     }
 
-    return createCustomAxiosInstance<IssueAttachment[]>({
-      url: `/issues/${id}/attachments`,
-      method: "POST",
-      headers: { "Content-Type": "multipart/form-data" },
-      data: formData,
-      params,
+    return axios.default.post(`/issues/${id}/attachments`, formData, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdAttachmentsIssueAttachmentId = (
+  const getIssuesIdAttachmentsIssueAttachmentId = <
+    TData = AxiosResponse<IssueAttachment>,
+  >(
     id: string,
     issueAttachmentId: string,
     params?: GetIssuesIdAttachmentsIssueAttachmentIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueAttachment>({
-      url: `/issues/${id}/attachments/${issueAttachmentId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/attachments/${issueAttachmentId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdAttachmentsIssueAttachmentId = (
+  const postIssuesIdAttachmentsIssueAttachmentId = <
+    TData = AxiosResponse<IssueAttachment>,
+  >(
     id: string,
     issueAttachmentId: string,
     issueAttachment: NonReadonly<IssueAttachment>,
     params?: PostIssuesIdAttachmentsIssueAttachmentIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueAttachment>({
-      url: `/issues/${id}/attachments/${issueAttachmentId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueAttachment,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/attachments/${issueAttachmentId}`,
+      issueAttachment,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteIssuesIdAttachmentsIssueAttachmentId = (
+  const deleteIssuesIdAttachmentsIssueAttachmentId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     issueAttachmentId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}/attachments/${issueAttachmentId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/issues/${id}/attachments/${issueAttachmentId}`,
+      options,
+    );
   };
 
-  const getIssuesIdComments = (
+  const getIssuesIdComments = <TData = AxiosResponse<IssueComment[]>>(
     id: string,
     params?: GetIssuesIdCommentsParams,
-  ) => {
-    return createCustomAxiosInstance<IssueComment[]>({
-      url: `/issues/${id}/comments`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/comments`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdComments = (
+  const postIssuesIdComments = <TData = AxiosResponse<IssueComment>>(
     id: string,
     issueComment: NonReadonly<IssueComment>,
     params?: PostIssuesIdCommentsParams,
-  ) => {
-    return createCustomAxiosInstance<IssueComment>({
-      url: `/issues/${id}/comments`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueComment,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issues/${id}/comments`, issueComment, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdCommentsIssueCommentId = (
+  const getIssuesIdCommentsIssueCommentId = <
+    TData = AxiosResponse<IssueComment>,
+  >(
     id: string,
     issueCommentId: string,
     params?: GetIssuesIdCommentsIssueCommentIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueComment>({
-      url: `/issues/${id}/comments/${issueCommentId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/comments/${issueCommentId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdCommentsIssueCommentId = (
+  const postIssuesIdCommentsIssueCommentId = <
+    TData = AxiosResponse<IssueComment>,
+  >(
     id: string,
     issueCommentId: string,
     issueComment: NonReadonly<IssueComment>,
     params?: PostIssuesIdCommentsIssueCommentIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueComment>({
-      url: `/issues/${id}/comments/${issueCommentId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueComment,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/comments/${issueCommentId}`,
+      issueComment,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteIssuesIdCommentsIssueCommentId = (
+  const deleteIssuesIdCommentsIssueCommentId = <TData = AxiosResponse<void>>(
     id: string,
     issueCommentId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}/comments/${issueCommentId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/issues/${id}/comments/${issueCommentId}`,
+      options,
+    );
   };
 
-  const getIssuesIdCommentsIssueCommentIdReactions = (
+  const getIssuesIdCommentsIssueCommentIdReactions = <
+    TData = AxiosResponse<Reaction[]>,
+  >(
     id: string,
     issueCommentId: string,
     params?: GetIssuesIdCommentsIssueCommentIdReactionsParams,
-  ) => {
-    return createCustomAxiosInstance<Reaction[]>({
-      url: `/issues/${id}/comments/${issueCommentId}/reactions`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/issues/${id}/comments/${issueCommentId}/reactions`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postIssuesIdCommentsIssueCommentIdReactions = (
+  const postIssuesIdCommentsIssueCommentIdReactions = <
+    TData = AxiosResponse<Reaction>,
+  >(
     id: string,
     issueCommentId: string,
     reaction: NonReadonly<Reaction>,
     params?: PostIssuesIdCommentsIssueCommentIdReactionsParams,
-  ) => {
-    return createCustomAxiosInstance<Reaction>({
-      url: `/issues/${id}/comments/${issueCommentId}/reactions`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: reaction,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/comments/${issueCommentId}/reactions`,
+      reaction,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getIssuesIdCommentsIssueCommentIdReactionsReactionId = (
+  const getIssuesIdCommentsIssueCommentIdReactionsReactionId = <
+    TData = AxiosResponse<Reaction>,
+  >(
     id: string,
     issueCommentId: string,
     reactionId: string,
     params?: GetIssuesIdCommentsIssueCommentIdReactionsReactionIdParams,
-  ) => {
-    return createCustomAxiosInstance<Reaction>({
-      url: `/issues/${id}/comments/${issueCommentId}/reactions/${reactionId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/issues/${id}/comments/${issueCommentId}/reactions/${reactionId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteIssuesIdCommentsIssueCommentIdReactionsReactionId = (
+  const deleteIssuesIdCommentsIssueCommentIdReactionsReactionId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     issueCommentId: string,
     reactionId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}/comments/${issueCommentId}/reactions/${reactionId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/issues/${id}/comments/${issueCommentId}/reactions/${reactionId}`,
+      options,
+    );
   };
 
-  const getIssuesIdCustomFields = (
+  const getIssuesIdCustomFields = <TData = AxiosResponse<IssueCustomField[]>>(
     id: string,
     params?: GetIssuesIdCustomFieldsParams,
-  ) => {
-    return createCustomAxiosInstance<IssueCustomField[]>({
-      url: `/issues/${id}/customFields`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/customFields`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdCustomFieldsIssueCustomFieldId = (
+  const getIssuesIdCustomFieldsIssueCustomFieldId = <
+    TData = AxiosResponse<IssueCustomField>,
+  >(
     id: string,
     issueCustomFieldId: string,
     params?: GetIssuesIdCustomFieldsIssueCustomFieldIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueCustomField>({
-      url: `/issues/${id}/customFields/${issueCustomFieldId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/issues/${id}/customFields/${issueCustomFieldId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postIssuesIdCustomFieldsIssueCustomFieldId = (
+  const postIssuesIdCustomFieldsIssueCustomFieldId = <
+    TData = AxiosResponse<IssueCustomField>,
+  >(
     id: string,
     issueCustomFieldId: string,
     issueCustomField: NonReadonly<IssueCustomField>,
     params?: PostIssuesIdCustomFieldsIssueCustomFieldIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueCustomField>({
-      url: `/issues/${id}/customFields/${issueCustomFieldId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueCustomField,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/customFields/${issueCustomFieldId}`,
+      issueCustomField,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
+  };
+
+  const getIssuesIdLinks = <TData = AxiosResponse<IssueLink[]>>(
+    id: string,
+    params?: GetIssuesIdLinksParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/links`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdLinks = (id: string, params?: GetIssuesIdLinksParams) => {
-    return createCustomAxiosInstance<IssueLink[]>({
-      url: `/issues/${id}/links`,
-      method: "GET",
-      params,
-    });
-  };
-
-  const getIssuesIdLinksIssueLinkId = (
+  const getIssuesIdLinksIssueLinkId = <TData = AxiosResponse<IssueLink>>(
     id: string,
     issueLinkId: string,
     params?: GetIssuesIdLinksIssueLinkIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueLink>({
-      url: `/issues/${id}/links/${issueLinkId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/links/${issueLinkId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdLinksIssueLinkIdIssues = (
+  const getIssuesIdLinksIssueLinkIdIssues = <TData = AxiosResponse<Issue[]>>(
     id: string,
     issueLinkId: string,
     params?: GetIssuesIdLinksIssueLinkIdIssuesParams,
-  ) => {
-    return createCustomAxiosInstance<Issue[]>({
-      url: `/issues/${id}/links/${issueLinkId}/issues`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/links/${issueLinkId}/issues`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdLinksIssueLinkIdIssues = (
+  const postIssuesIdLinksIssueLinkIdIssues = <TData = AxiosResponse<Issue>>(
     id: string,
     issueLinkId: string,
     issue: NonReadonly<Issue>,
     params?: PostIssuesIdLinksIssueLinkIdIssuesParams,
-  ) => {
-    return createCustomAxiosInstance<Issue>({
-      url: `/issues/${id}/links/${issueLinkId}/issues`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issue,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/links/${issueLinkId}/issues`,
+      issue,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteIssuesIdLinksIssueLinkIdIssuesIssueId = (
+  const deleteIssuesIdLinksIssueLinkIdIssuesIssueId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     issueLinkId: string,
     issueId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}/links/${issueLinkId}/issues/${issueId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/issues/${id}/links/${issueLinkId}/issues/${issueId}`,
+      options,
+    );
   };
 
-  const getIssuesIdProject = (
+  const getIssuesIdProject = <TData = AxiosResponse<Project>>(
     id: string,
     params?: GetIssuesIdProjectParams,
-  ) => {
-    return createCustomAxiosInstance<Project>({
-      url: `/issues/${id}/project`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/project`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdProject = (
+  const postIssuesIdProject = <TData = AxiosResponse<Project>>(
     id: string,
     project: NonReadonly<Project>,
     params?: PostIssuesIdProjectParams,
-  ) => {
-    return createCustomAxiosInstance<Project>({
-      url: `/issues/${id}/project`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: project,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issues/${id}/project`, project, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdSprints = (
+  const getIssuesIdSprints = <TData = AxiosResponse<Sprint[]>>(
     id: string,
     params?: GetIssuesIdSprintsParams,
-  ) => {
-    return createCustomAxiosInstance<Sprint[]>({
-      url: `/issues/${id}/sprints`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/sprints`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdTags = (id: string, params?: GetIssuesIdTagsParams) => {
-    return createCustomAxiosInstance<Tag[]>({
-      url: `/issues/${id}/tags`,
-      method: "GET",
-      params,
+  const getIssuesIdTags = <TData = AxiosResponse<Tag[]>>(
+    id: string,
+    params?: GetIssuesIdTagsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/tags`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdTags = (
+  const postIssuesIdTags = <TData = AxiosResponse<Tag>>(
     id: string,
     tag: NonReadonly<Tag>,
     params?: PostIssuesIdTagsParams,
-  ) => {
-    return createCustomAxiosInstance<Tag>({
-      url: `/issues/${id}/tags`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: tag,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issues/${id}/tags`, tag, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdTagsTagId = (
+  const getIssuesIdTagsTagId = <TData = AxiosResponse<Tag>>(
     id: string,
     tagId: string,
     params?: GetIssuesIdTagsTagIdParams,
-  ) => {
-    return createCustomAxiosInstance<Tag>({
-      url: `/issues/${id}/tags/${tagId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/tags/${tagId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteIssuesIdTagsTagId = (id: string, tagId: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}/tags/${tagId}`,
-      method: "DELETE",
-    });
+  const deleteIssuesIdTagsTagId = <TData = AxiosResponse<void>>(
+    id: string,
+    tagId: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/issues/${id}/tags/${tagId}`, options);
   };
 
-  const getIssuesIdTimeTracking = (
+  const getIssuesIdTimeTracking = <TData = AxiosResponse<IssueTimeTracker>>(
     id: string,
     params?: GetIssuesIdTimeTrackingParams,
-  ) => {
-    return createCustomAxiosInstance<IssueTimeTracker>({
-      url: `/issues/${id}/timeTracking`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/timeTracking`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdTimeTrackingWorkItems = (
+  const getIssuesIdTimeTrackingWorkItems = <
+    TData = AxiosResponse<IssueWorkItem[]>,
+  >(
     id: string,
     params?: GetIssuesIdTimeTrackingWorkItemsParams,
-  ) => {
-    return createCustomAxiosInstance<IssueWorkItem[]>({
-      url: `/issues/${id}/timeTracking/workItems`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/timeTracking/workItems`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdTimeTrackingWorkItems = (
+  const postIssuesIdTimeTrackingWorkItems = <
+    TData = AxiosResponse<IssueWorkItem>,
+  >(
     id: string,
     issueWorkItem: NonReadonly<IssueWorkItem>,
     params?: PostIssuesIdTimeTrackingWorkItemsParams,
-  ) => {
-    return createCustomAxiosInstance<IssueWorkItem>({
-      url: `/issues/${id}/timeTracking/workItems`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueWorkItem,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/timeTracking/workItems`,
+      issueWorkItem,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getIssuesIdTimeTrackingWorkItemsIssueWorkItemId = (
+  const getIssuesIdTimeTrackingWorkItemsIssueWorkItemId = <
+    TData = AxiosResponse<IssueWorkItem>,
+  >(
     id: string,
     issueWorkItemId: string,
     params?: GetIssuesIdTimeTrackingWorkItemsIssueWorkItemIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueWorkItem>({
-      url: `/issues/${id}/timeTracking/workItems/${issueWorkItemId}`,
-      method: "GET",
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(
+      `/issues/${id}/timeTracking/workItems/${issueWorkItemId}`,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const postIssuesIdTimeTrackingWorkItemsIssueWorkItemId = (
+  const postIssuesIdTimeTrackingWorkItemsIssueWorkItemId = <
+    TData = AxiosResponse<IssueWorkItem>,
+  >(
     id: string,
     issueWorkItemId: string,
     issueWorkItem: NonReadonly<IssueWorkItem>,
     params?: PostIssuesIdTimeTrackingWorkItemsIssueWorkItemIdParams,
-  ) => {
-    return createCustomAxiosInstance<IssueWorkItem>({
-      url: `/issues/${id}/timeTracking/workItems/${issueWorkItemId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueWorkItem,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/timeTracking/workItems/${issueWorkItemId}`,
+      issueWorkItem,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteIssuesIdTimeTrackingWorkItemsIssueWorkItemId = (
+  const deleteIssuesIdTimeTrackingWorkItemsIssueWorkItemId = <
+    TData = AxiosResponse<void>,
+  >(
     id: string,
     issueWorkItemId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}/timeTracking/workItems/${issueWorkItemId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/issues/${id}/timeTracking/workItems/${issueWorkItemId}`,
+      options,
+    );
   };
 
-  const getIssuesIdVcsChanges = (
+  const getIssuesIdVcsChanges = <TData = AxiosResponse<VcsChange[]>>(
     id: string,
     params?: GetIssuesIdVcsChangesParams,
-  ) => {
-    return createCustomAxiosInstance<VcsChange[]>({
-      url: `/issues/${id}/vcsChanges`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/vcsChanges`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdVcsChanges = (
+  const postIssuesIdVcsChanges = <TData = AxiosResponse<VcsChange>>(
     id: string,
     vcsChange: NonReadonly<VcsChange>,
     params?: PostIssuesIdVcsChangesParams,
-  ) => {
-    return createCustomAxiosInstance<VcsChange>({
-      url: `/issues/${id}/vcsChanges`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: vcsChange,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issues/${id}/vcsChanges`, vcsChange, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getIssuesIdVcsChangesVcsChangeId = (
+  const getIssuesIdVcsChangesVcsChangeId = <TData = AxiosResponse<VcsChange>>(
     id: string,
     vcsChangeId: string,
     params?: GetIssuesIdVcsChangesVcsChangeIdParams,
-  ) => {
-    return createCustomAxiosInstance<VcsChange>({
-      url: `/issues/${id}/vcsChanges/${vcsChangeId}`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/issues/${id}/vcsChanges/${vcsChangeId}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postIssuesIdVcsChangesVcsChangeId = (
+  const postIssuesIdVcsChangesVcsChangeId = <TData = AxiosResponse<VcsChange>>(
     id: string,
     vcsChangeId: string,
     vcsChange: NonReadonly<VcsChange>,
     params?: PostIssuesIdVcsChangesVcsChangeIdParams,
-  ) => {
-    return createCustomAxiosInstance<VcsChange>({
-      url: `/issues/${id}/vcsChanges/${vcsChangeId}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: vcsChange,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/issues/${id}/vcsChanges/${vcsChangeId}`,
+      vcsChange,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const deleteIssuesIdVcsChangesVcsChangeId = (
+  const deleteIssuesIdVcsChangesVcsChangeId = <TData = AxiosResponse<void>>(
     id: string,
     vcsChangeId: string,
-  ) => {
-    return createCustomAxiosInstance<void>({
-      url: `/issues/${id}/vcsChanges/${vcsChangeId}`,
-      method: "DELETE",
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(
+      `/issues/${id}/vcsChanges/${vcsChangeId}`,
+      options,
+    );
   };
 
-  const postIssuesGetterCount = (
+  const postIssuesGetterCount = <TData = AxiosResponse<IssueCountResponse>>(
     issueCountResponse: NonReadonly<IssueCountResponse>,
     params?: PostIssuesGetterCountParams,
-  ) => {
-    return createCustomAxiosInstance<IssueCountResponse>({
-      url: `/issuesGetter/count`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: issueCountResponse,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/issuesGetter/count`, issueCountResponse, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getSavedQueries = (params?: GetSavedQueriesParams) => {
-    return createCustomAxiosInstance<SavedQuery[]>({
-      url: `/savedQueries`,
-      method: "GET",
-      params,
+  const getSavedQueries = <TData = AxiosResponse<SavedQuery[]>>(
+    params?: GetSavedQueriesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/savedQueries`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postSavedQueries = (
+  const postSavedQueries = <TData = AxiosResponse<SavedQuery>>(
     savedQuery: NonReadonly<SavedQuery>,
     params?: PostSavedQueriesParams,
-  ) => {
-    return createCustomAxiosInstance<SavedQuery>({
-      url: `/savedQueries`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: savedQuery,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/savedQueries`, savedQuery, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getSavedQueriesId = (id: string, params?: GetSavedQueriesIdParams) => {
-    return createCustomAxiosInstance<SavedQuery>({
-      url: `/savedQueries/${id}`,
-      method: "GET",
-      params,
+  const getSavedQueriesId = <TData = AxiosResponse<SavedQuery>>(
+    id: string,
+    params?: GetSavedQueriesIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/savedQueries/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postSavedQueriesId = (
+  const postSavedQueriesId = <TData = AxiosResponse<SavedQuery>>(
     id: string,
     savedQuery: NonReadonly<SavedQuery>,
     params?: PostSavedQueriesIdParams,
-  ) => {
-    return createCustomAxiosInstance<SavedQuery>({
-      url: `/savedQueries/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: savedQuery,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/savedQueries/${id}`, savedQuery, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteSavedQueriesId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/savedQueries/${id}`,
-      method: "DELETE",
-    });
+  const deleteSavedQueriesId = <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/savedQueries/${id}`, options);
   };
 
-  const postSearchAssist = (
+  const postSearchAssist = <TData = AxiosResponse<SearchSuggestions>>(
     searchSuggestions: NonReadonly<SearchSuggestions>,
     params?: PostSearchAssistParams,
-  ) => {
-    return createCustomAxiosInstance<SearchSuggestions>({
-      url: `/search/assist`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: searchSuggestions,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/search/assist`, searchSuggestions, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getTags = (params?: GetTagsParams) => {
-    return createCustomAxiosInstance<Tag[]>({
-      url: `/tags`,
-      method: "GET",
-      params,
+  const getTags = <TData = AxiosResponse<Tag[]>>(
+    params?: GetTagsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/tags`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postTags = (tag: NonReadonly<Tag>, params?: PostTagsParams) => {
-    return createCustomAxiosInstance<Tag>({
-      url: `/tags`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: tag,
-      params,
+  const postTags = <TData = AxiosResponse<Tag>>(
+    tag: NonReadonly<Tag>,
+    params?: PostTagsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/tags`, tag, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getTagsId = (id: string, params?: GetTagsIdParams) => {
-    return createCustomAxiosInstance<Tag>({
-      url: `/tags/${id}`,
-      method: "GET",
-      params,
+  const getTagsId = <TData = AxiosResponse<Tag>>(
+    id: string,
+    params?: GetTagsIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/tags/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postTagsId = (
+  const postTagsId = <TData = AxiosResponse<Tag>>(
     id: string,
     tag: NonReadonly<Tag>,
     params?: PostTagsIdParams,
-  ) => {
-    return createCustomAxiosInstance<Tag>({
-      url: `/tags/${id}`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: tag,
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(`/tags/${id}`, tag, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const deleteTagsId = (id: string) => {
-    return createCustomAxiosInstance<void>({
-      url: `/tags/${id}`,
-      method: "DELETE",
+  const deleteTagsId = <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.delete(`/tags/${id}`, options);
+  };
+
+  const getTagsIdIssues = <TData = AxiosResponse<Issue[]>>(
+    id: string,
+    params?: GetTagsIdIssuesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/tags/${id}/issues`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getTagsIdIssues = (id: string, params?: GetTagsIdIssuesParams) => {
-    return createCustomAxiosInstance<Issue[]>({
-      url: `/tags/${id}/issues`,
-      method: "GET",
-      params,
+  const getUsers = <TData = AxiosResponse<User[]>>(
+    params?: GetUsersParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getUsers = (params?: GetUsersParams) => {
-    return createCustomAxiosInstance<User[]>({
-      url: `/users`,
-      method: "GET",
-      params,
+  const getUsersId = <TData = AxiosResponse<User>>(
+    id: string,
+    params?: GetUsersIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getUsersId = (id: string, params?: GetUsersIdParams) => {
-    return createCustomAxiosInstance<User>({
-      url: `/users/${id}`,
-      method: "GET",
-      params,
-    });
-  };
-
-  const getUsersIdProfilesGeneral = (
+  const getUsersIdProfilesGeneral = <TData = AxiosResponse<GeneralUserProfile>>(
     id: string,
     params?: GetUsersIdProfilesGeneralParams,
-  ) => {
-    return createCustomAxiosInstance<GeneralUserProfile>({
-      url: `/users/${id}/profiles/general`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users/${id}/profiles/general`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postUsersIdProfilesGeneral = (
+  const postUsersIdProfilesGeneral = <
+    TData = AxiosResponse<GeneralUserProfile>,
+  >(
     id: string,
     generalUserProfile: NonReadonly<GeneralUserProfile>,
     params?: PostUsersIdProfilesGeneralParams,
-  ) => {
-    return createCustomAxiosInstance<GeneralUserProfile>({
-      url: `/users/${id}/profiles/general`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: generalUserProfile,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/users/${id}/profiles/general`,
+      generalUserProfile,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getUsersIdProfilesNotifications = (
+  const getUsersIdProfilesNotifications = <
+    TData = AxiosResponse<NotificationsUserProfile>,
+  >(
     id: string,
     params?: GetUsersIdProfilesNotificationsParams,
-  ) => {
-    return createCustomAxiosInstance<NotificationsUserProfile>({
-      url: `/users/${id}/profiles/notifications`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users/${id}/profiles/notifications`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postUsersIdProfilesNotifications = (
+  const postUsersIdProfilesNotifications = <
+    TData = AxiosResponse<NotificationsUserProfile>,
+  >(
     id: string,
     notificationsUserProfile: NonReadonly<NotificationsUserProfile>,
     params?: PostUsersIdProfilesNotificationsParams,
-  ) => {
-    return createCustomAxiosInstance<NotificationsUserProfile>({
-      url: `/users/${id}/profiles/notifications`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: notificationsUserProfile,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/users/${id}/profiles/notifications`,
+      notificationsUserProfile,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getUsersIdProfilesTimetracking = (
+  const getUsersIdProfilesTimetracking = <
+    TData = AxiosResponse<TimeTrackingUserProfile>,
+  >(
     id: string,
     params?: GetUsersIdProfilesTimetrackingParams,
-  ) => {
-    return createCustomAxiosInstance<TimeTrackingUserProfile>({
-      url: `/users/${id}/profiles/timetracking`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users/${id}/profiles/timetracking`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const postUsersIdProfilesTimetracking = (
+  const postUsersIdProfilesTimetracking = <
+    TData = AxiosResponse<TimeTrackingUserProfile>,
+  >(
     id: string,
     timeTrackingUserProfile: NonReadonly<TimeTrackingUserProfile>,
     params?: PostUsersIdProfilesTimetrackingParams,
-  ) => {
-    return createCustomAxiosInstance<TimeTrackingUserProfile>({
-      url: `/users/${id}/profiles/timetracking`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: timeTrackingUserProfile,
-      params,
-    });
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.post(
+      `/users/${id}/profiles/timetracking`,
+      timeTrackingUserProfile,
+      {
+        ...options,
+        params: { ...params, ...options?.params },
+      },
+    );
   };
 
-  const getUsersIdSavedQueries = (
+  const getUsersIdSavedQueries = <TData = AxiosResponse<SavedQuery[]>>(
     id: string,
     params?: GetUsersIdSavedQueriesParams,
-  ) => {
-    return createCustomAxiosInstance<SavedQuery[]>({
-      url: `/users/${id}/savedQueries`,
-      method: "GET",
-      params,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users/${id}/savedQueries`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getUsersIdTags = (id: string, params?: GetUsersIdTagsParams) => {
-    return createCustomAxiosInstance<Tag[]>({
-      url: `/users/${id}/tags`,
-      method: "GET",
-      params,
+  const getUsersIdTags = <TData = AxiosResponse<Tag[]>>(
+    id: string,
+    params?: GetUsersIdTagsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users/${id}/tags`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getUsersMe = (params?: GetUsersMeParams) => {
-    return createCustomAxiosInstance<Me>({
-      url: `/users/me`,
-      method: "GET",
-      params,
+  const getUsersMe = <TData = AxiosResponse<Me>>(
+    params?: GetUsersMeParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/users/me`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getWorkItems = (params?: GetWorkItemsParams) => {
-    return createCustomAxiosInstance<IssueWorkItem[]>({
-      url: `/workItems`,
-      method: "GET",
-      params,
+  const getWorkItems = <TData = AxiosResponse<IssueWorkItem[]>>(
+    params?: GetWorkItemsParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/workItems`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
-  const getWorkItemsId = (id: string, params?: GetWorkItemsIdParams) => {
-    return createCustomAxiosInstance<IssueWorkItem>({
-      url: `/workItems/${id}`,
-      method: "GET",
-      params,
+  const getWorkItemsId = <TData = AxiosResponse<IssueWorkItem>>(
+    id: string,
+    params?: GetWorkItemsIdParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return axios.default.get(`/workItems/${id}`, {
+      ...options,
+      params: { ...params, ...options?.params },
     });
   };
 
@@ -3368,1818 +3910,399 @@ export const getYouTrackRESTAPI = () => {
     getWorkItemsId,
   };
 };
-
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
-export type GetActivitiesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getActivities"]>>
+export type GetActivitiesResult = AxiosResponse<ActivityItem[]>;
+export type GetActivitiesIdResult = AxiosResponse<ActivityItem>;
+export type GetActivitiesPageResult = AxiosResponse<ActivityCursorPage>;
+export type GetAdminCustomFieldSettingsBundlesBuildResult = AxiosResponse<
+  BuildBundle[]
 >;
-export type GetActivitiesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getActivitiesId"]>>
->;
-export type GetActivitiesPageResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getActivitiesPage"]>
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesBuildResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesBuild"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesBuildResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesBuild"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesBuildIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesBuildId"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesBuildIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesBuildId"]
-    >
-  >
->;
-export type DeleteAdminCustomFieldSettingsBundlesBuildIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteAdminCustomFieldSettingsBundlesBuildId"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesBuildIdValuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesBuildIdValues"]
-    >
-  >
->;
+export type PostAdminCustomFieldSettingsBundlesBuildResult =
+  AxiosResponse<BuildBundle>;
+export type GetAdminCustomFieldSettingsBundlesBuildIdResult =
+  AxiosResponse<BuildBundle>;
+export type PostAdminCustomFieldSettingsBundlesBuildIdResult =
+  AxiosResponse<BuildBundle>;
+export type DeleteAdminCustomFieldSettingsBundlesBuildIdResult =
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesBuildIdValuesResult =
+  AxiosResponse<BuildBundleElement[]>;
 export type PostAdminCustomFieldSettingsBundlesBuildIdValuesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesBuildIdValues"]
-      >
-    >
-  >;
+  AxiosResponse<BuildBundleElement>;
 export type GetAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<BuildBundleElement>;
 export type PostAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<BuildBundleElement>;
 export type DeleteAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesBuildIdValuesBuildBundleElementId"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsBundlesEnumResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesEnum"]
-    >
-  >
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesEnumResult = AxiosResponse<
+  EnumBundle[]
 >;
-export type PostAdminCustomFieldSettingsBundlesEnumResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesEnum"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesEnumIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesEnumId"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesEnumIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesEnumId"]
-    >
-  >
->;
-export type DeleteAdminCustomFieldSettingsBundlesEnumIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteAdminCustomFieldSettingsBundlesEnumId"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesEnumIdValuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesEnumIdValues"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesEnumIdValuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesEnumIdValues"]
-    >
-  >
->;
+export type PostAdminCustomFieldSettingsBundlesEnumResult =
+  AxiosResponse<EnumBundle>;
+export type GetAdminCustomFieldSettingsBundlesEnumIdResult =
+  AxiosResponse<EnumBundle>;
+export type PostAdminCustomFieldSettingsBundlesEnumIdResult =
+  AxiosResponse<EnumBundle>;
+export type DeleteAdminCustomFieldSettingsBundlesEnumIdResult =
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesEnumIdValuesResult =
+  AxiosResponse<EnumBundleElement[]>;
+export type PostAdminCustomFieldSettingsBundlesEnumIdValuesResult =
+  AxiosResponse<EnumBundleElement>;
 export type GetAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<EnumBundleElement>;
 export type PostAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<EnumBundleElement>;
 export type DeleteAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesEnumIdValuesEnumBundleElementId"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsBundlesOwnedFieldResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesOwnedField"]
-    >
-  >
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesOwnedFieldResult = AxiosResponse<
+  OwnedBundle[]
 >;
-export type PostAdminCustomFieldSettingsBundlesOwnedFieldResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesOwnedField"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesOwnedFieldIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesOwnedFieldId"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesOwnedFieldIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesOwnedFieldId"]
-    >
-  >
->;
+export type PostAdminCustomFieldSettingsBundlesOwnedFieldResult =
+  AxiosResponse<OwnedBundle>;
+export type GetAdminCustomFieldSettingsBundlesOwnedFieldIdResult =
+  AxiosResponse<OwnedBundle>;
+export type PostAdminCustomFieldSettingsBundlesOwnedFieldIdResult =
+  AxiosResponse<OwnedBundle>;
 export type DeleteAdminCustomFieldSettingsBundlesOwnedFieldIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesOwnedFieldId"]
-      >
-    >
-  >;
+  AxiosResponse<void>;
 export type GetAdminCustomFieldSettingsBundlesOwnedFieldIdValuesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesOwnedFieldIdValues"]
-      >
-    >
-  >;
+  AxiosResponse<OwnedBundleElement[]>;
 export type PostAdminCustomFieldSettingsBundlesOwnedFieldIdValuesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesOwnedFieldIdValues"]
-      >
-    >
-  >;
+  AxiosResponse<OwnedBundleElement>;
 export type GetAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<OwnedBundleElement>;
 export type PostAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<OwnedBundleElement>;
 export type DeleteAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesOwnedFieldIdValuesOwnedBundleElementId"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsBundlesStateResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesState"]
-    >
-  >
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesStateResult = AxiosResponse<
+  StateBundle[]
 >;
-export type PostAdminCustomFieldSettingsBundlesStateResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesState"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesStateIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesStateId"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesStateIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesStateId"]
-    >
-  >
->;
-export type DeleteAdminCustomFieldSettingsBundlesStateIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteAdminCustomFieldSettingsBundlesStateId"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesStateIdValuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesStateIdValues"]
-    >
-  >
->;
+export type PostAdminCustomFieldSettingsBundlesStateResult =
+  AxiosResponse<StateBundle>;
+export type GetAdminCustomFieldSettingsBundlesStateIdResult =
+  AxiosResponse<StateBundle>;
+export type PostAdminCustomFieldSettingsBundlesStateIdResult =
+  AxiosResponse<StateBundle>;
+export type DeleteAdminCustomFieldSettingsBundlesStateIdResult =
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesStateIdValuesResult =
+  AxiosResponse<StateBundleElement[]>;
 export type PostAdminCustomFieldSettingsBundlesStateIdValuesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesStateIdValues"]
-      >
-    >
-  >;
+  AxiosResponse<StateBundleElement>;
 export type GetAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<StateBundleElement>;
 export type PostAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<StateBundleElement>;
 export type DeleteAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesStateIdValuesStateBundleElementId"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsBundlesUserResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesUser"]
-    >
-  >
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesUserResult = AxiosResponse<
+  UserBundle[]
 >;
-export type PostAdminCustomFieldSettingsBundlesUserResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesUser"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesUserIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesUserId"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesUserIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesUserId"]
-    >
-  >
->;
-export type DeleteAdminCustomFieldSettingsBundlesUserIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteAdminCustomFieldSettingsBundlesUserId"]
-    >
-  >
->;
+export type PostAdminCustomFieldSettingsBundlesUserResult =
+  AxiosResponse<UserBundle>;
+export type GetAdminCustomFieldSettingsBundlesUserIdResult =
+  AxiosResponse<UserBundle>;
+export type PostAdminCustomFieldSettingsBundlesUserIdResult =
+  AxiosResponse<UserBundle>;
+export type DeleteAdminCustomFieldSettingsBundlesUserIdResult =
+  AxiosResponse<void>;
 export type GetAdminCustomFieldSettingsBundlesUserIdAggregatedUsersResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesUserIdAggregatedUsers"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsBundlesUserIdGroupsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesUserIdGroups"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesUserIdGroupsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesUserIdGroups"]
-    >
-  >
->;
+  AxiosResponse<User[]>;
+export type GetAdminCustomFieldSettingsBundlesUserIdGroupsResult =
+  AxiosResponse<UserGroup[]>;
+export type PostAdminCustomFieldSettingsBundlesUserIdGroupsResult =
+  AxiosResponse<UserGroup>;
 export type GetAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupId"]
-      >
-    >
-  >;
+  AxiosResponse<UserGroup>;
 export type DeleteAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesUserIdGroupsUserGroupId"]
-      >
-    >
-  >;
+  AxiosResponse<void>;
 export type GetAdminCustomFieldSettingsBundlesUserIdIndividualsResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesUserIdIndividuals"]
-      >
-    >
-  >;
+  AxiosResponse<User[]>;
 export type PostAdminCustomFieldSettingsBundlesUserIdIndividualsResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesUserIdIndividuals"]
-      >
-    >
-  >;
+  AxiosResponse<User>;
 export type GetAdminCustomFieldSettingsBundlesUserIdIndividualsUserIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesUserIdIndividualsUserId"]
-      >
-    >
-  >;
+  AxiosResponse<User>;
 export type DeleteAdminCustomFieldSettingsBundlesUserIdIndividualsUserIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesUserIdIndividualsUserId"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsBundlesVersionResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesVersion"]
-    >
-  >
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsBundlesVersionResult = AxiosResponse<
+  VersionBundle[]
 >;
-export type PostAdminCustomFieldSettingsBundlesVersionResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesVersion"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsBundlesVersionIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsBundlesVersionId"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsBundlesVersionIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsBundlesVersionId"]
-    >
-  >
->;
-export type DeleteAdminCustomFieldSettingsBundlesVersionIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteAdminCustomFieldSettingsBundlesVersionId"]
-    >
-  >
->;
+export type PostAdminCustomFieldSettingsBundlesVersionResult =
+  AxiosResponse<VersionBundle>;
+export type GetAdminCustomFieldSettingsBundlesVersionIdResult =
+  AxiosResponse<VersionBundle>;
+export type PostAdminCustomFieldSettingsBundlesVersionIdResult =
+  AxiosResponse<VersionBundle>;
+export type DeleteAdminCustomFieldSettingsBundlesVersionIdResult =
+  AxiosResponse<void>;
 export type GetAdminCustomFieldSettingsBundlesVersionIdValuesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesVersionIdValues"]
-      >
-    >
-  >;
+  AxiosResponse<VersionBundleElement[]>;
 export type PostAdminCustomFieldSettingsBundlesVersionIdValuesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesVersionIdValues"]
-      >
-    >
-  >;
+  AxiosResponse<VersionBundleElement>;
 export type GetAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<VersionBundleElement>;
 export type PostAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementId"]
-      >
-    >
-  >;
+  AxiosResponse<VersionBundleElement>;
 export type DeleteAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminCustomFieldSettingsBundlesVersionIdValuesVersionBundleElementId"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsCustomFieldsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsCustomFields"]
-    >
-  >
+  AxiosResponse<void>;
+export type GetAdminCustomFieldSettingsCustomFieldsResult = AxiosResponse<
+  CustomField[]
 >;
-export type PostAdminCustomFieldSettingsCustomFieldsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsCustomFields"]
-    >
-  >
->;
-export type GetAdminCustomFieldSettingsCustomFieldsIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminCustomFieldSettingsCustomFieldsId"]
-    >
-  >
->;
-export type PostAdminCustomFieldSettingsCustomFieldsIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminCustomFieldSettingsCustomFieldsId"]
-    >
-  >
->;
-export type DeleteAdminCustomFieldSettingsCustomFieldsIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteAdminCustomFieldSettingsCustomFieldsId"]
-    >
-  >
->;
+export type PostAdminCustomFieldSettingsCustomFieldsResult =
+  AxiosResponse<CustomField>;
+export type GetAdminCustomFieldSettingsCustomFieldsIdResult =
+  AxiosResponse<CustomField>;
+export type PostAdminCustomFieldSettingsCustomFieldsIdResult =
+  AxiosResponse<CustomField>;
+export type DeleteAdminCustomFieldSettingsCustomFieldsIdResult =
+  AxiosResponse<void>;
 export type GetAdminCustomFieldSettingsCustomFieldsIdFieldDefaultsResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsCustomFieldsIdFieldDefaults"]
-      >
-    >
-  >;
+  AxiosResponse<CustomFieldDefaults>;
 export type PostAdminCustomFieldSettingsCustomFieldsIdFieldDefaultsResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminCustomFieldSettingsCustomFieldsIdFieldDefaults"]
-      >
-    >
-  >;
+  AxiosResponse<CustomFieldDefaults>;
 export type GetAdminCustomFieldSettingsCustomFieldsIdInstancesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminCustomFieldSettingsCustomFieldsIdInstances"]
-      >
-    >
-  >;
-export type GetAdminCustomFieldSettingsTypesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminCustomFieldSettingsTypes"]
-    >
-  >
+  AxiosResponse<ProjectCustomField[]>;
+export type GetAdminCustomFieldSettingsTypesResult = AxiosResponse<FieldType[]>;
+export type GetAdminDatabaseBackupBackupsResult = AxiosResponse<BackupFile[]>;
+export type GetAdminDatabaseBackupBackupsIdResult = AxiosResponse<BackupFile>;
+export type GetAdminDatabaseBackupSettingsResult =
+  AxiosResponse<DatabaseBackupSettings>;
+export type PostAdminDatabaseBackupSettingsResult =
+  AxiosResponse<DatabaseBackupSettings>;
+export type GetAdminDatabaseBackupSettingsBackupStatusResult =
+  AxiosResponse<BackupStatus>;
+export type GetAdminGlobalSettingsResult = AxiosResponse<GlobalSettings>;
+export type PostAdminGlobalSettingsResult = AxiosResponse<GlobalSettings>;
+export type GetAdminGlobalSettingsAppearanceSettingsResult =
+  AxiosResponse<AppearanceSettings>;
+export type PostAdminGlobalSettingsAppearanceSettingsResult =
+  AxiosResponse<AppearanceSettings>;
+export type GetAdminGlobalSettingsLicenseResult = AxiosResponse<License>;
+export type PostAdminGlobalSettingsLicenseResult = AxiosResponse<License>;
+export type GetAdminGlobalSettingsLocaleSettingsResult =
+  AxiosResponse<LocaleSettings>;
+export type PostAdminGlobalSettingsLocaleSettingsResult =
+  AxiosResponse<LocaleSettings>;
+export type GetAdminGlobalSettingsNotificationSettingsResult =
+  AxiosResponse<NotificationSettings>;
+export type PostAdminGlobalSettingsNotificationSettingsResult =
+  AxiosResponse<NotificationSettings>;
+export type GetAdminGlobalSettingsRestSettingsResult =
+  AxiosResponse<RestCorsSettings>;
+export type PostAdminGlobalSettingsRestSettingsResult =
+  AxiosResponse<RestCorsSettings>;
+export type GetAdminGlobalSettingsSystemSettingsResult =
+  AxiosResponse<SystemSettings>;
+export type PostAdminGlobalSettingsSystemSettingsResult =
+  AxiosResponse<SystemSettings>;
+export type GetAdminProjectsResult = AxiosResponse<Project[]>;
+export type PostAdminProjectsResult = AxiosResponse<Project>;
+export type GetAdminProjectsIdResult = AxiosResponse<Project>;
+export type PostAdminProjectsIdResult = AxiosResponse<Project>;
+export type DeleteAdminProjectsIdResult = AxiosResponse<void>;
+export type GetAdminProjectsIdArticlesResult = AxiosResponse<Article[]>;
+export type GetAdminProjectsIdCustomFieldsResult = AxiosResponse<
+  ProjectCustomField[]
 >;
-export type GetAdminDatabaseBackupBackupsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminDatabaseBackupBackups"]
-    >
-  >
->;
-export type GetAdminDatabaseBackupBackupsIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminDatabaseBackupBackupsId"]
-    >
-  >
->;
-export type GetAdminDatabaseBackupSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminDatabaseBackupSettings"]
-    >
-  >
->;
-export type PostAdminDatabaseBackupSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postAdminDatabaseBackupSettings"]
-    >
-  >
->;
-export type GetAdminDatabaseBackupSettingsBackupStatusResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminDatabaseBackupSettingsBackupStatus"]
-    >
-  >
->;
-export type GetAdminGlobalSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getAdminGlobalSettings"]>
-  >
->;
-export type PostAdminGlobalSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postAdminGlobalSettings"]>
-  >
->;
-export type GetAdminGlobalSettingsAppearanceSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminGlobalSettingsAppearanceSettings"]
-    >
-  >
->;
-export type PostAdminGlobalSettingsAppearanceSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminGlobalSettingsAppearanceSettings"]
-    >
-  >
->;
-export type GetAdminGlobalSettingsLicenseResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminGlobalSettingsLicense"]
-    >
-  >
->;
-export type PostAdminGlobalSettingsLicenseResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postAdminGlobalSettingsLicense"]
-    >
-  >
->;
-export type GetAdminGlobalSettingsLocaleSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminGlobalSettingsLocaleSettings"]
-    >
-  >
->;
-export type PostAdminGlobalSettingsLocaleSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminGlobalSettingsLocaleSettings"]
-    >
-  >
->;
-export type GetAdminGlobalSettingsNotificationSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminGlobalSettingsNotificationSettings"]
-    >
-  >
->;
-export type PostAdminGlobalSettingsNotificationSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminGlobalSettingsNotificationSettings"]
-    >
-  >
->;
-export type GetAdminGlobalSettingsRestSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminGlobalSettingsRestSettings"]
-    >
-  >
->;
-export type PostAdminGlobalSettingsRestSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminGlobalSettingsRestSettings"]
-    >
-  >
->;
-export type GetAdminGlobalSettingsSystemSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminGlobalSettingsSystemSettings"]
-    >
-  >
->;
-export type PostAdminGlobalSettingsSystemSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminGlobalSettingsSystemSettings"]
-    >
-  >
->;
-export type GetAdminProjectsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getAdminProjects"]>>
->;
-export type PostAdminProjectsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postAdminProjects"]>
-  >
->;
-export type GetAdminProjectsIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getAdminProjectsId"]>
-  >
->;
-export type PostAdminProjectsIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postAdminProjectsId"]>
-  >
->;
-export type DeleteAdminProjectsIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteAdminProjectsId"]>
-  >
->;
-export type GetAdminProjectsIdArticlesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminProjectsIdArticles"]
-    >
-  >
->;
-export type GetAdminProjectsIdCustomFieldsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminProjectsIdCustomFields"]
-    >
-  >
->;
-export type PostAdminProjectsIdCustomFieldsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postAdminProjectsIdCustomFields"]
-    >
-  >
->;
+export type PostAdminProjectsIdCustomFieldsResult =
+  AxiosResponse<ProjectCustomField>;
 export type GetAdminProjectsIdCustomFieldsProjectCustomFieldIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminProjectsIdCustomFieldsProjectCustomFieldId"]
-      >
-    >
-  >;
+  AxiosResponse<ProjectCustomField>;
 export type PostAdminProjectsIdCustomFieldsProjectCustomFieldIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminProjectsIdCustomFieldsProjectCustomFieldId"]
-      >
-    >
-  >;
+  AxiosResponse<ProjectCustomField>;
 export type DeleteAdminProjectsIdCustomFieldsProjectCustomFieldIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminProjectsIdCustomFieldsProjectCustomFieldId"]
-      >
-    >
-  >;
-export type GetAdminProjectsIdIssuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminProjectsIdIssues"]
-    >
-  >
->;
-export type PostAdminProjectsIdIssuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postAdminProjectsIdIssues"]
-    >
-  >
->;
-export type GetAdminProjectsIdIssuesIssueIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminProjectsIdIssuesIssueId"]
-    >
-  >
->;
-export type PostAdminProjectsIdIssuesIssueIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postAdminProjectsIdIssuesIssueId"]
-    >
-  >
->;
-export type DeleteAdminProjectsIdIssuesIssueIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteAdminProjectsIdIssuesIssueId"]
-    >
-  >
->;
-export type GetAdminProjectsIdTimeTrackingSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminProjectsIdTimeTrackingSettings"]
-    >
-  >
->;
-export type PostAdminProjectsIdTimeTrackingSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminProjectsIdTimeTrackingSettings"]
-    >
-  >
->;
+  AxiosResponse<void>;
+export type GetAdminProjectsIdIssuesResult = AxiosResponse<Issue[]>;
+export type PostAdminProjectsIdIssuesResult = AxiosResponse<Issue>;
+export type GetAdminProjectsIdIssuesIssueIdResult = AxiosResponse<Issue>;
+export type PostAdminProjectsIdIssuesIssueIdResult = AxiosResponse<Issue>;
+export type DeleteAdminProjectsIdIssuesIssueIdResult = AxiosResponse<void>;
+export type GetAdminProjectsIdTimeTrackingSettingsResult =
+  AxiosResponse<ProjectTimeTrackingSettings>;
+export type PostAdminProjectsIdTimeTrackingSettingsResult =
+  AxiosResponse<ProjectTimeTrackingSettings>;
 export type GetAdminProjectsIdTimeTrackingSettingsWorkItemTypesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminProjectsIdTimeTrackingSettingsWorkItemTypes"]
-      >
-    >
-  >;
+  AxiosResponse<WorkItemType[]>;
 export type PostAdminProjectsIdTimeTrackingSettingsWorkItemTypesResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminProjectsIdTimeTrackingSettingsWorkItemTypes"]
-      >
-    >
-  >;
+  AxiosResponse<WorkItemType>;
 export type GetAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeId"]
-      >
-    >
-  >;
+  AxiosResponse<WorkItemType>;
 export type DeleteAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminProjectsIdTimeTrackingSettingsWorkItemTypesWorkItemTypeId"]
-      >
-    >
-  >;
-export type GetAdminTelemetryResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getAdminTelemetry"]>
-  >
+  AxiosResponse<void>;
+export type GetAdminTelemetryResult = AxiosResponse<Telemetry>;
+export type GetAdminTimeTrackingSettingsResult =
+  AxiosResponse<GlobalTimeTrackingSettings>;
+export type GetAdminTimeTrackingSettingsWorkItemTypesResult = AxiosResponse<
+  WorkItemType[]
 >;
-export type GetAdminTimeTrackingSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAdminTimeTrackingSettings"]
-    >
-  >
->;
-export type GetAdminTimeTrackingSettingsWorkItemTypesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminTimeTrackingSettingsWorkItemTypes"]
-    >
-  >
->;
-export type PostAdminTimeTrackingSettingsWorkItemTypesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminTimeTrackingSettingsWorkItemTypes"]
-    >
-  >
->;
+export type PostAdminTimeTrackingSettingsWorkItemTypesResult =
+  AxiosResponse<WorkItemType>;
 export type GetAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId"]
-      >
-    >
-  >;
+  AxiosResponse<WorkItemType>;
 export type PostAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId"]
-      >
-    >
-  >;
+  AxiosResponse<WorkItemType>;
 export type DeleteAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteAdminTimeTrackingSettingsWorkItemTypesWorkItemTypeId"]
-      >
-    >
-  >;
-export type GetAdminTimeTrackingSettingsWorkTimeSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getAdminTimeTrackingSettingsWorkTimeSettings"]
-    >
-  >
->;
-export type PostAdminTimeTrackingSettingsWorkTimeSettingsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postAdminTimeTrackingSettingsWorkTimeSettings"]
-    >
-  >
->;
-export type GetAgilesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getAgiles"]>>
->;
-export type PostAgilesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postAgiles"]>>
->;
-export type GetAgilesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getAgilesId"]>>
->;
-export type PostAgilesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postAgilesId"]>>
->;
-export type DeleteAgilesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteAgilesId"]>>
->;
-export type GetAgilesIdSprintsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getAgilesIdSprints"]>
-  >
->;
-export type PostAgilesIdSprintsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postAgilesIdSprints"]>
-  >
->;
-export type GetAgilesIdSprintsSprintIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getAgilesIdSprintsSprintId"]
-    >
-  >
->;
-export type PostAgilesIdSprintsSprintIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postAgilesIdSprintsSprintId"]
-    >
-  >
->;
-export type DeleteAgilesIdSprintsSprintIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["deleteAgilesIdSprintsSprintId"]
-    >
-  >
->;
-export type GetArticlesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getArticles"]>>
->;
-export type PostArticlesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postArticles"]>>
->;
-export type GetArticlesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getArticlesId"]>>
->;
-export type PostArticlesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postArticlesId"]>>
->;
-export type DeleteArticlesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteArticlesId"]>>
->;
-export type GetArticlesIdAttachmentsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getArticlesIdAttachments"]
-    >
-  >
->;
-export type PostArticlesIdAttachmentsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postArticlesIdAttachments"]
-    >
-  >
->;
-export type GetArticlesIdAttachmentsArticleAttachmentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getArticlesIdAttachmentsArticleAttachmentId"]
-    >
-  >
->;
-export type PostArticlesIdAttachmentsArticleAttachmentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postArticlesIdAttachmentsArticleAttachmentId"]
-    >
-  >
->;
-export type DeleteArticlesIdAttachmentsArticleAttachmentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteArticlesIdAttachmentsArticleAttachmentId"]
-    >
-  >
->;
-export type GetArticlesIdChildArticlesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getArticlesIdChildArticles"]
-    >
-  >
->;
-export type PostArticlesIdChildArticlesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postArticlesIdChildArticles"]
-    >
-  >
->;
-export type GetArticlesIdChildArticlesArticleIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getArticlesIdChildArticlesArticleId"]
-    >
-  >
->;
-export type PostArticlesIdChildArticlesArticleIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postArticlesIdChildArticlesArticleId"]
-    >
-  >
->;
-export type DeleteArticlesIdChildArticlesArticleIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteArticlesIdChildArticlesArticleId"]
-    >
-  >
->;
-export type GetArticlesIdCommentsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getArticlesIdComments"]>
-  >
->;
-export type PostArticlesIdCommentsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postArticlesIdComments"]>
-  >
->;
-export type GetArticlesIdCommentsArticleCommentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getArticlesIdCommentsArticleCommentId"]
-    >
-  >
->;
-export type PostArticlesIdCommentsArticleCommentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postArticlesIdCommentsArticleCommentId"]
-    >
-  >
->;
-export type DeleteArticlesIdCommentsArticleCommentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteArticlesIdCommentsArticleCommentId"]
-    >
-  >
->;
-export type GetArticlesIdCommentsArticleCommentIdReactionsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getArticlesIdCommentsArticleCommentIdReactions"]
-    >
-  >
->;
-export type PostArticlesIdCommentsArticleCommentIdReactionsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postArticlesIdCommentsArticleCommentIdReactions"]
-    >
-  >
->;
+  AxiosResponse<void>;
+export type GetAdminTimeTrackingSettingsWorkTimeSettingsResult =
+  AxiosResponse<WorkTimeSettings>;
+export type PostAdminTimeTrackingSettingsWorkTimeSettingsResult =
+  AxiosResponse<WorkTimeSettings>;
+export type GetAgilesResult = AxiosResponse<Agile[]>;
+export type PostAgilesResult = AxiosResponse<Agile>;
+export type GetAgilesIdResult = AxiosResponse<Agile>;
+export type PostAgilesIdResult = AxiosResponse<Agile>;
+export type DeleteAgilesIdResult = AxiosResponse<void>;
+export type GetAgilesIdSprintsResult = AxiosResponse<Sprint[]>;
+export type PostAgilesIdSprintsResult = AxiosResponse<Sprint>;
+export type GetAgilesIdSprintsSprintIdResult = AxiosResponse<Sprint>;
+export type PostAgilesIdSprintsSprintIdResult = AxiosResponse<Sprint>;
+export type DeleteAgilesIdSprintsSprintIdResult = AxiosResponse<void>;
+export type GetArticlesResult = AxiosResponse<Article[]>;
+export type PostArticlesResult = AxiosResponse<Article>;
+export type GetArticlesIdResult = AxiosResponse<Article>;
+export type PostArticlesIdResult = AxiosResponse<Article>;
+export type DeleteArticlesIdResult = AxiosResponse<void>;
+export type GetArticlesIdAttachmentsResult = AxiosResponse<ArticleAttachment[]>;
+export type PostArticlesIdAttachmentsResult = AxiosResponse<ArticleAttachment>;
+export type GetArticlesIdAttachmentsArticleAttachmentIdResult =
+  AxiosResponse<ArticleAttachment>;
+export type PostArticlesIdAttachmentsArticleAttachmentIdResult =
+  AxiosResponse<ArticleAttachment>;
+export type DeleteArticlesIdAttachmentsArticleAttachmentIdResult =
+  AxiosResponse<void>;
+export type GetArticlesIdChildArticlesResult = AxiosResponse<Article[]>;
+export type PostArticlesIdChildArticlesResult = AxiosResponse<Article>;
+export type GetArticlesIdChildArticlesArticleIdResult = AxiosResponse<Article>;
+export type PostArticlesIdChildArticlesArticleIdResult = AxiosResponse<Article>;
+export type DeleteArticlesIdChildArticlesArticleIdResult = AxiosResponse<void>;
+export type GetArticlesIdCommentsResult = AxiosResponse<ArticleComment[]>;
+export type PostArticlesIdCommentsResult = AxiosResponse<ArticleComment>;
+export type GetArticlesIdCommentsArticleCommentIdResult =
+  AxiosResponse<ArticleComment>;
+export type PostArticlesIdCommentsArticleCommentIdResult =
+  AxiosResponse<ArticleComment>;
+export type DeleteArticlesIdCommentsArticleCommentIdResult =
+  AxiosResponse<void>;
+export type GetArticlesIdCommentsArticleCommentIdReactionsResult =
+  AxiosResponse<Reaction[]>;
+export type PostArticlesIdCommentsArticleCommentIdReactionsResult =
+  AxiosResponse<Reaction>;
 export type GetArticlesIdCommentsArticleCommentIdReactionsReactionIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getArticlesIdCommentsArticleCommentIdReactionsReactionId"]
-      >
-    >
-  >;
+  AxiosResponse<Reaction>;
 export type DeleteArticlesIdCommentsArticleCommentIdReactionsReactionIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteArticlesIdCommentsArticleCommentIdReactionsReactionId"]
-      >
-    >
-  >;
-export type GetArticlesIdParentArticleResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getArticlesIdParentArticle"]
-    >
-  >
+  AxiosResponse<void>;
+export type GetArticlesIdParentArticleResult = AxiosResponse<Article>;
+export type GetArticlesIdTagsResult = AxiosResponse<Tag[]>;
+export type PostArticlesIdTagsResult = AxiosResponse<Tag>;
+export type GetArticlesIdTagsTagIdResult = AxiosResponse<Tag>;
+export type DeleteArticlesIdTagsTagIdResult = AxiosResponse<void>;
+export type PostCommandsResult = AxiosResponse<CommandList>;
+export type PostCommandsAssistResult = AxiosResponse<CommandList>;
+export type GetGroupsResult = AxiosResponse<UserGroup[]>;
+export type GetGroupsIdResult = AxiosResponse<UserGroup>;
+export type GetIssueLinkTypesResult = AxiosResponse<IssueLinkType[]>;
+export type PostIssueLinkTypesResult = AxiosResponse<IssueLinkType>;
+export type GetIssueLinkTypesIdResult = AxiosResponse<IssueLinkType>;
+export type PostIssueLinkTypesIdResult = AxiosResponse<IssueLinkType>;
+export type DeleteIssueLinkTypesIdResult = AxiosResponse<void>;
+export type GetIssuesResult = AxiosResponse<Issue[]>;
+export type PostIssuesResult = AxiosResponse<Issue>;
+export type GetIssuesIdResult = AxiosResponse<Issue>;
+export type PostIssuesIdResult = AxiosResponse<Issue>;
+export type DeleteIssuesIdResult = AxiosResponse<void>;
+export type GetIssuesIdActivitiesResult = AxiosResponse<ActivityItem[]>;
+export type GetIssuesIdActivitiesActivityItemIdResult =
+  AxiosResponse<ActivityItem>;
+export type GetIssuesIdActivitiesPageResult = AxiosResponse<ActivityCursorPage>;
+export type GetIssuesIdAttachmentsResult = AxiosResponse<IssueAttachment[]>;
+export type PostIssuesIdAttachmentsResult = AxiosResponse<IssueAttachment[]>;
+export type GetIssuesIdAttachmentsIssueAttachmentIdResult =
+  AxiosResponse<IssueAttachment>;
+export type PostIssuesIdAttachmentsIssueAttachmentIdResult =
+  AxiosResponse<IssueAttachment>;
+export type DeleteIssuesIdAttachmentsIssueAttachmentIdResult =
+  AxiosResponse<void>;
+export type GetIssuesIdCommentsResult = AxiosResponse<IssueComment[]>;
+export type PostIssuesIdCommentsResult = AxiosResponse<IssueComment>;
+export type GetIssuesIdCommentsIssueCommentIdResult =
+  AxiosResponse<IssueComment>;
+export type PostIssuesIdCommentsIssueCommentIdResult =
+  AxiosResponse<IssueComment>;
+export type DeleteIssuesIdCommentsIssueCommentIdResult = AxiosResponse<void>;
+export type GetIssuesIdCommentsIssueCommentIdReactionsResult = AxiosResponse<
+  Reaction[]
 >;
-export type GetArticlesIdTagsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getArticlesIdTags"]>
-  >
->;
-export type PostArticlesIdTagsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postArticlesIdTags"]>
-  >
->;
-export type GetArticlesIdTagsTagIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getArticlesIdTagsTagId"]>
-  >
->;
-export type DeleteArticlesIdTagsTagIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["deleteArticlesIdTagsTagId"]
-    >
-  >
->;
-export type PostCommandsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postCommands"]>>
->;
-export type PostCommandsAssistResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postCommandsAssist"]>
-  >
->;
-export type GetGroupsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getGroups"]>>
->;
-export type GetGroupsIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getGroupsId"]>>
->;
-export type GetIssueLinkTypesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssueLinkTypes"]>
-  >
->;
-export type PostIssueLinkTypesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssueLinkTypes"]>
-  >
->;
-export type GetIssueLinkTypesIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssueLinkTypesId"]>
-  >
->;
-export type PostIssueLinkTypesIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssueLinkTypesId"]>
-  >
->;
-export type DeleteIssueLinkTypesIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteIssueLinkTypesId"]>
-  >
->;
-export type GetIssuesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssues"]>>
->;
-export type PostIssuesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssues"]>>
->;
-export type GetIssuesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesId"]>>
->;
-export type PostIssuesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssuesId"]>>
->;
-export type DeleteIssuesIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteIssuesId"]>>
->;
-export type GetIssuesIdActivitiesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdActivities"]>
-  >
->;
-export type GetIssuesIdActivitiesActivityItemIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getIssuesIdActivitiesActivityItemId"]
-    >
-  >
->;
-export type GetIssuesIdActivitiesPageResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdActivitiesPage"]
-    >
-  >
->;
-export type GetIssuesIdAttachmentsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdAttachments"]>
-  >
->;
-export type PostIssuesIdAttachmentsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssuesIdAttachments"]>
-  >
->;
-export type GetIssuesIdAttachmentsIssueAttachmentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getIssuesIdAttachmentsIssueAttachmentId"]
-    >
-  >
->;
-export type PostIssuesIdAttachmentsIssueAttachmentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postIssuesIdAttachmentsIssueAttachmentId"]
-    >
-  >
->;
-export type DeleteIssuesIdAttachmentsIssueAttachmentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteIssuesIdAttachmentsIssueAttachmentId"]
-    >
-  >
->;
-export type GetIssuesIdCommentsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdComments"]>
-  >
->;
-export type PostIssuesIdCommentsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssuesIdComments"]>
-  >
->;
-export type GetIssuesIdCommentsIssueCommentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdCommentsIssueCommentId"]
-    >
-  >
->;
-export type PostIssuesIdCommentsIssueCommentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postIssuesIdCommentsIssueCommentId"]
-    >
-  >
->;
-export type DeleteIssuesIdCommentsIssueCommentIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteIssuesIdCommentsIssueCommentId"]
-    >
-  >
->;
-export type GetIssuesIdCommentsIssueCommentIdReactionsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getIssuesIdCommentsIssueCommentIdReactions"]
-    >
-  >
->;
-export type PostIssuesIdCommentsIssueCommentIdReactionsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postIssuesIdCommentsIssueCommentIdReactions"]
-    >
-  >
->;
+export type PostIssuesIdCommentsIssueCommentIdReactionsResult =
+  AxiosResponse<Reaction>;
 export type GetIssuesIdCommentsIssueCommentIdReactionsReactionIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["getIssuesIdCommentsIssueCommentIdReactionsReactionId"]
-      >
-    >
-  >;
+  AxiosResponse<Reaction>;
 export type DeleteIssuesIdCommentsIssueCommentIdReactionsReactionIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteIssuesIdCommentsIssueCommentIdReactionsReactionId"]
-      >
-    >
-  >;
-export type GetIssuesIdCustomFieldsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdCustomFields"]>
-  >
+  AxiosResponse<void>;
+export type GetIssuesIdCustomFieldsResult = AxiosResponse<IssueCustomField[]>;
+export type GetIssuesIdCustomFieldsIssueCustomFieldIdResult =
+  AxiosResponse<IssueCustomField>;
+export type PostIssuesIdCustomFieldsIssueCustomFieldIdResult =
+  AxiosResponse<IssueCustomField>;
+export type GetIssuesIdLinksResult = AxiosResponse<IssueLink[]>;
+export type GetIssuesIdLinksIssueLinkIdResult = AxiosResponse<IssueLink>;
+export type GetIssuesIdLinksIssueLinkIdIssuesResult = AxiosResponse<Issue[]>;
+export type PostIssuesIdLinksIssueLinkIdIssuesResult = AxiosResponse<Issue>;
+export type DeleteIssuesIdLinksIssueLinkIdIssuesIssueIdResult =
+  AxiosResponse<void>;
+export type GetIssuesIdProjectResult = AxiosResponse<Project>;
+export type PostIssuesIdProjectResult = AxiosResponse<Project>;
+export type GetIssuesIdSprintsResult = AxiosResponse<Sprint[]>;
+export type GetIssuesIdTagsResult = AxiosResponse<Tag[]>;
+export type PostIssuesIdTagsResult = AxiosResponse<Tag>;
+export type GetIssuesIdTagsTagIdResult = AxiosResponse<Tag>;
+export type DeleteIssuesIdTagsTagIdResult = AxiosResponse<void>;
+export type GetIssuesIdTimeTrackingResult = AxiosResponse<IssueTimeTracker>;
+export type GetIssuesIdTimeTrackingWorkItemsResult = AxiosResponse<
+  IssueWorkItem[]
 >;
-export type GetIssuesIdCustomFieldsIssueCustomFieldIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getIssuesIdCustomFieldsIssueCustomFieldId"]
-    >
-  >
->;
-export type PostIssuesIdCustomFieldsIssueCustomFieldIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postIssuesIdCustomFieldsIssueCustomFieldId"]
-    >
-  >
->;
-export type GetIssuesIdLinksResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdLinks"]>>
->;
-export type GetIssuesIdLinksIssueLinkIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdLinksIssueLinkId"]
-    >
-  >
->;
-export type GetIssuesIdLinksIssueLinkIdIssuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdLinksIssueLinkIdIssues"]
-    >
-  >
->;
-export type PostIssuesIdLinksIssueLinkIdIssuesResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["postIssuesIdLinksIssueLinkIdIssues"]
-    >
-  >
->;
-export type DeleteIssuesIdLinksIssueLinkIdIssuesIssueIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteIssuesIdLinksIssueLinkIdIssuesIssueId"]
-    >
-  >
->;
-export type GetIssuesIdProjectResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdProject"]>
-  >
->;
-export type PostIssuesIdProjectResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssuesIdProject"]>
-  >
->;
-export type GetIssuesIdSprintsResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdSprints"]>
-  >
->;
-export type GetIssuesIdTagsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdTags"]>>
->;
-export type PostIssuesIdTagsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssuesIdTags"]>>
->;
-export type GetIssuesIdTagsTagIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdTagsTagId"]>
-  >
->;
-export type DeleteIssuesIdTagsTagIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteIssuesIdTagsTagId"]>
-  >
->;
-export type GetIssuesIdTimeTrackingResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdTimeTracking"]>
-  >
->;
-export type GetIssuesIdTimeTrackingWorkItemsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdTimeTrackingWorkItems"]
-    >
-  >
->;
-export type PostIssuesIdTimeTrackingWorkItemsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postIssuesIdTimeTrackingWorkItems"]
-    >
-  >
->;
-export type GetIssuesIdTimeTrackingWorkItemsIssueWorkItemIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["getIssuesIdTimeTrackingWorkItemsIssueWorkItemId"]
-    >
-  >
->;
+export type PostIssuesIdTimeTrackingWorkItemsResult =
+  AxiosResponse<IssueWorkItem>;
+export type GetIssuesIdTimeTrackingWorkItemsIssueWorkItemIdResult =
+  AxiosResponse<IssueWorkItem>;
 export type PostIssuesIdTimeTrackingWorkItemsIssueWorkItemIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["postIssuesIdTimeTrackingWorkItemsIssueWorkItemId"]
-      >
-    >
-  >;
+  AxiosResponse<IssueWorkItem>;
 export type DeleteIssuesIdTimeTrackingWorkItemsIssueWorkItemIdResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getYouTrackRESTAPI
-        >["deleteIssuesIdTimeTrackingWorkItemsIssueWorkItemId"]
-      >
-    >
-  >;
-export type GetIssuesIdVcsChangesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdVcsChanges"]>
-  >
->;
-export type PostIssuesIdVcsChangesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssuesIdVcsChanges"]>
-  >
->;
-export type GetIssuesIdVcsChangesVcsChangeIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getIssuesIdVcsChangesVcsChangeId"]
-    >
-  >
->;
-export type PostIssuesIdVcsChangesVcsChangeIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postIssuesIdVcsChangesVcsChangeId"]
-    >
-  >
->;
-export type DeleteIssuesIdVcsChangesVcsChangeIdResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getYouTrackRESTAPI
-      >["deleteIssuesIdVcsChangesVcsChangeId"]
-    >
-  >
->;
-export type PostIssuesGetterCountResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postIssuesGetterCount"]>
-  >
->;
-export type GetSavedQueriesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getSavedQueries"]>>
->;
-export type PostSavedQueriesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postSavedQueries"]>>
->;
-export type GetSavedQueriesIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getSavedQueriesId"]>
-  >
->;
-export type PostSavedQueriesIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postSavedQueriesId"]>
-  >
->;
-export type DeleteSavedQueriesIdResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteSavedQueriesId"]>
-  >
->;
-export type PostSearchAssistResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postSearchAssist"]>>
->;
-export type GetTagsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getTags"]>>
->;
-export type PostTagsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postTags"]>>
->;
-export type GetTagsIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getTagsId"]>>
->;
-export type PostTagsIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["postTagsId"]>>
->;
-export type DeleteTagsIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["deleteTagsId"]>>
->;
-export type GetTagsIdIssuesResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getTagsIdIssues"]>>
->;
-export type GetUsersResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getUsers"]>>
->;
-export type GetUsersIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getUsersId"]>>
->;
-export type GetUsersIdProfilesGeneralResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getUsersIdProfilesGeneral"]
-    >
-  >
->;
-export type PostUsersIdProfilesGeneralResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postUsersIdProfilesGeneral"]
-    >
-  >
->;
-export type GetUsersIdProfilesNotificationsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getUsersIdProfilesNotifications"]
-    >
-  >
->;
-export type PostUsersIdProfilesNotificationsResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postUsersIdProfilesNotifications"]
-    >
-  >
->;
-export type GetUsersIdProfilesTimetrackingResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["getUsersIdProfilesTimetracking"]
-    >
-  >
->;
-export type PostUsersIdProfilesTimetrackingResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getYouTrackRESTAPI>["postUsersIdProfilesTimetracking"]
-    >
-  >
->;
-export type GetUsersIdSavedQueriesResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getUsersIdSavedQueries"]>
-  >
->;
-export type GetUsersIdTagsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getUsersIdTags"]>>
->;
-export type GetUsersMeResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getUsersMe"]>>
->;
-export type GetWorkItemsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getWorkItems"]>>
->;
-export type GetWorkItemsIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getYouTrackRESTAPI>["getWorkItemsId"]>>
->;
+  AxiosResponse<void>;
+export type GetIssuesIdVcsChangesResult = AxiosResponse<VcsChange[]>;
+export type PostIssuesIdVcsChangesResult = AxiosResponse<VcsChange>;
+export type GetIssuesIdVcsChangesVcsChangeIdResult = AxiosResponse<VcsChange>;
+export type PostIssuesIdVcsChangesVcsChangeIdResult = AxiosResponse<VcsChange>;
+export type DeleteIssuesIdVcsChangesVcsChangeIdResult = AxiosResponse<void>;
+export type PostIssuesGetterCountResult = AxiosResponse<IssueCountResponse>;
+export type GetSavedQueriesResult = AxiosResponse<SavedQuery[]>;
+export type PostSavedQueriesResult = AxiosResponse<SavedQuery>;
+export type GetSavedQueriesIdResult = AxiosResponse<SavedQuery>;
+export type PostSavedQueriesIdResult = AxiosResponse<SavedQuery>;
+export type DeleteSavedQueriesIdResult = AxiosResponse<void>;
+export type PostSearchAssistResult = AxiosResponse<SearchSuggestions>;
+export type GetTagsResult = AxiosResponse<Tag[]>;
+export type PostTagsResult = AxiosResponse<Tag>;
+export type GetTagsIdResult = AxiosResponse<Tag>;
+export type PostTagsIdResult = AxiosResponse<Tag>;
+export type DeleteTagsIdResult = AxiosResponse<void>;
+export type GetTagsIdIssuesResult = AxiosResponse<Issue[]>;
+export type GetUsersResult = AxiosResponse<User[]>;
+export type GetUsersIdResult = AxiosResponse<User>;
+export type GetUsersIdProfilesGeneralResult = AxiosResponse<GeneralUserProfile>;
+export type PostUsersIdProfilesGeneralResult =
+  AxiosResponse<GeneralUserProfile>;
+export type GetUsersIdProfilesNotificationsResult =
+  AxiosResponse<NotificationsUserProfile>;
+export type PostUsersIdProfilesNotificationsResult =
+  AxiosResponse<NotificationsUserProfile>;
+export type GetUsersIdProfilesTimetrackingResult =
+  AxiosResponse<TimeTrackingUserProfile>;
+export type PostUsersIdProfilesTimetrackingResult =
+  AxiosResponse<TimeTrackingUserProfile>;
+export type GetUsersIdSavedQueriesResult = AxiosResponse<SavedQuery[]>;
+export type GetUsersIdTagsResult = AxiosResponse<Tag[]>;
+export type GetUsersMeResult = AxiosResponse<Me>;
+export type GetWorkItemsResult = AxiosResponse<IssueWorkItem[]>;
+export type GetWorkItemsIdResult = AxiosResponse<IssueWorkItem>;
