@@ -1,8 +1,9 @@
 #!/usr/bin/env bun
 
 import dotenv from "dotenv";
+import {getAdminProjects} from "../src/client";
 
-import { getYouTrackRESTAPI as youtrack } from '../src/youtrack/youTrackRESTAPI';
+
 
 
 // Load environment variables
@@ -10,7 +11,6 @@ dotenv.config();
 
 const YOUTRACK_MCP_PROJECT = process.env.YOUTRACK_MCP_PROJECT;
 
-const { getAdminProjects } = youtrack();
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -22,7 +22,7 @@ async function main() {
   try {
     switch (command) {
       // Issue commands
-      case "list-issues":
+      case "list-projects":
         await listProjects();
         break;
 
@@ -39,16 +39,23 @@ async function main() {
 
 
 async function listProjects() {
-  const projects = await getAdminProjects()
+  const response = await getAdminProjects()
+  const projects = response.data || []
+
+  console.log(response.error)
+  console.log(response.data)
+
+  console.log(`Found ${projects.length} projects:`)
 
   projects.forEach(project => {
-    console.log(`${project.id}: ${project.name} (${project.shortName})`);
-  }
+    console.log(`${project.id}: ${project.name} (${project.shortName})`)
+  })
 }
 
 
 
 function showHelp() {
+  const defaultProjectMsg = 'Hey'
   // const defaultProject = getDefaultProject();
   // const defaultProjectMsg = defaultProject ?
   //   `Default project: ${defaultProject} (from YOUTRACK_MCP_PROJECT)` :

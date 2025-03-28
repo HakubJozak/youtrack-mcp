@@ -6,8 +6,7 @@
   "scripts": {
     "start": "bun run index.ts",
     "cli": "bun run bin/youtrack-cli.ts",
-    "generate-api": "orval --config ./orval.config.ts",
-    "api-examples": "bun run api/examples.ts"
+    "openapi-ts": "openapi-ts -f src/openapi-ts.config.ts",
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -18,6 +17,8 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@hey-api/client-fetch": "^0.8.4",
+    "@hey-api/openapi-ts": "^0.64.15",
     "@modelcontextprotocol/sdk": "^1.7.0",
     "axios": "^1.8.4",
     "dotenv": "16.4.7",
