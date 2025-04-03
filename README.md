@@ -10,6 +10,12 @@ JetBrains Youtrack project management.
 - Swagger/Open API Specs are in docs/youtrack-openapi.json
 - CLI is using https://github.com/commander-rb/commander as a option parser DSL
 
+## YouTrack Query Language
+
+YouTrack Query Language is a specific language for querying issues in YouTrack. 
+
+- docs: https://www.jetbrains.com/help/youtrack/cloud/search-and-command-attributes.html?Search-and-Command-Attributes
+
 ## Implementation
 
 - using Ruby gem FastMCP to implement the server

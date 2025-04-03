@@ -3,10 +3,16 @@
 class YoutrackApiClient
   VERSION='0.0.1'
 
-  # $type,archived,customFields,id,leader($type,id,login,ringId),name,shortName
   def get_admin_projects
-    parse get("/admin/projects", params: { fields: 'id,name' })
+    fields = '$type,archived,customFields,id,leader($type,id,login,ringId),name,shortName'
+    parse get("/admin/projects", params: { fields:  })
   end
+
+  def get_admin_custom_fields
+    fields = '$type,fieldType($type,id),id,isAutoAttached,isUpdateable,localizedName,name,ordinal'
+    parse get('/admin/customFieldSettings/customFields', params: { fields: })
+  end
+
 
   private
 
