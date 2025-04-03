@@ -3,15 +3,34 @@
 class YoutrackApiClient
   VERSION='0.0.1'
 
-  def get_admin_projects
+  class Error < StandardError; end
+
+  def get_projects
     fields = '$type,archived,customFields,id,leader($type,id,login,ringId),name,shortName'
     parse get("/admin/projects", params: { fields:  })
+  end
+
+  def get_project(id)
+    fields = '$type,archived,customFields(id),name,shortName'
+    parse get("/admin/projects/#{id}", params: { fields: })
+  end
+
+  def get_project_field(project_id, field_id)
+    fields = '$type,bundle($type,id),canBeEmpty,defaultValues($type,id,name),emptyFieldText,field($type,fieldType($type,id),id,localizedName,name),id,isPublic,ordinal'
+    parse get("/admin/projects/#{project_id}/customFields/#{field_id}", params: { fields: })
   end
 
   def get_admin_custom_fields
     fields = '$type,fieldType($type,id),id,isAutoAttached,isUpdateable,localizedName,name,ordinal'
     parse get('/admin/customFieldSettings/customFields', params: { fields: })
   end
+
+  def get_admin_custom_field(id)
+    fields = '$type,fieldType($type,id),id,isAutoAttached,isUpdateable,localizedName,name,ordinal'
+    parse get("/admin/customFieldSettings/customFields/#{id}", params: { fields: })
+  end
+
+
 
 
   private
@@ -20,7 +39,7 @@ class YoutrackApiClient
     response = http.get("#{base_url}#{path}", params:)
 
     unless response.status.ok?
-      raise Error, response.body
+      raise Error, response.body.to_s
     end
 
     response
