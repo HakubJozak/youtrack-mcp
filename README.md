@@ -1,5 +1,7 @@
 # YouTrack MCP
 
+[[WARNING]] - this is a work in progress POC, not production ready MCP. Feel free to contribute.
+
 This is a YouTrack MCP server that allows LLMs to create, edit and delete tickets in 
 JetBrains Youtrack project management.
 
