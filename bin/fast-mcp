@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+require 'zeitwerk'
+
+# Setup autoloading with Zeitwerk
+loader = Zeitwerk::Loader.new
+loader.push_dir(File.expand_path("../lib", __dir__))
+loader.setup
+
+# Load required gems
+require 'dotenv/load'
+
+require 'mcp'
+
+name "youtrack"
+
+version "1.0.0"
+
+# Define a resource
+# resource "youtrack://" do
+#   name "Hello World"
+#   description "A simple hello world message"
+#   call { "Hello, World!" }
+# end
+api = YoutrackApiClient.new
+
+# Define a resource template
+resource_template "youtrack://issues/{short_name}" do
+  name "Youtrack Issue"
+  description "Youtrack Issue details in JSON format"
+
+  call do
+    api.get_issue(short_name)
+  end
+end

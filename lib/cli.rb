@@ -1,6 +1,7 @@
 require 'commander/import'
 
-service = YoutrackService.new
+current_project = YoutrackProject.new
+api = YoutrackApiClient.new
 
 program :name, 'youtrack'
 program :version, '0.0.1'
@@ -12,12 +13,10 @@ default_command :help
 command :projects do |c|
   c.syntax = 'youtrack projects, [options]'
   c.summary = 'list all projects'
-
-
   c.option '--some-switch', 'Some switch that does something'
 
   c.action do |args, options|
-    puts service.list_projects
+    puts api.list_projects.to_json
   end
 end
 
@@ -33,7 +32,7 @@ command :project do |c|
     end
 
     project_id = args[0]
-    puts service.get_project(project_id)
+    puts api.get_project(project_id).to_json
   end
 end
 
@@ -49,7 +48,7 @@ command :fields do |c|
     end
     
     project_id = args[0]
-    puts service.get_project_fields(project_id)
+    puts api.get_project_fields(project_id).to_json
   end
 end
 
@@ -65,7 +64,7 @@ command :field do |c|
     end
 
     field_id = args[0]
-    puts api.get_admin_custom_field(field_id) rescue puts "Custom field not implemented yet"
+    puts api.get_admin_custom_field(field_id).to_json
   end
 end
 

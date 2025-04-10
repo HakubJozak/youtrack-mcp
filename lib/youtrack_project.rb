@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 # YoutrackService handles business logic and operations
-class YoutrackService
-  attr_reader :api
-  
-  def initialize(api = nil)
-    @_api = api || YoutrackApiClient.new
+class YoutrackProject
+
+  def initialize(project = default_project)
+    @_project = project
   end
-  
+
   # Get a list of all projects with basic information
   def list_projects
     api.get_projects
@@ -17,7 +16,7 @@ class YoutrackService
   def get_project(id)
     api.get_project(id)
   end
-  
+
   # Get custom fields configuration from a project
   def get_project_fields(project_id)
     project = api.get_project(project_id)
@@ -32,5 +31,13 @@ class YoutrackService
   
   def default_project
     ENV.fetch('YOUTRACK_MCP_PROJECT')
+  end
+
+  def project
+    @_project
+  end
+
+  def api
+    @_api = YoutrackApiClient.new
   end
 end

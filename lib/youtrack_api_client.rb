@@ -15,8 +15,15 @@ class YoutrackApiClient
   end
 
   def get_project(id)
-    fields = '$type,archived,customFields(id),name,shortName'
+    # fields = '$type,archived,customFields(id),name,shortName'
+    fields = '$type,archived,name,shortName'
     parse get("/admin/projects/#{id}", params: { fields: })
+  end
+
+  def get_project_fields(project_id)
+    # fields = '$type,bundle($type,id),canBeEmpty,defaultValues($type,id,name),emptyFieldText,field($type,fieldType($type,id),id,localizedName,name),id,isPublic,ordinal'
+    fields = '$type,canBeEmpty,defaultValues($type,name),emptyFieldText,field(name),id,isPublic,ordinal'
+    parse get("/admin/projects/#{project_id}/customFields", params: { fields: })
   end
 
   def get_project_field(project_id, field_id)
