@@ -12,27 +12,30 @@ loader.setup
 
 # Load required gems
 require 'dotenv/load'
+require 'fast_mcp'
 
-require 'mcp'
+# Create an MCP server
+server = FastMcp::Server.new(name: 'my-ai-server', version: '1.0.0')
 
-name "youtrack"
+# Define a tool by inheriting from FastMcp::Tool
+class StatisticsResource < FastMcp::Resource
+  uri "data/statistics"
+  resource_name "Usage Statistics"
+  description "Current system statistics"
+  mime_type "application/json"
 
-version "1.0.0"
-
-# Define a resource
-# resource "youtrack://" do
-#   name "Hello World"
-#   description "A simple hello world message"
-#   call { "Hello, World!" }
-# end
-api = YoutrackApiClient.new
-
-# Define a resource template
-resource_template "youtrack://issues/{short_name}" do
-  name "Youtrack Issue"
-  description "Youtrack Issue details in JSON format"
-
-  call do
-    api.get_issue(short_name)
+  def content
+    JSON.generate({
+                    users_online: 120,
+                    queries_per_minute: 250,
+                    popular_topics: ["Ruby", "AI", "WebDev"]
+                  })
   end
 end
+
+# Register the resource with the server
+server.register_resource(StatisticsResource)
+
+# Start the server
+server.start
+
