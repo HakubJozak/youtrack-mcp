@@ -4,6 +4,9 @@ require "test_helper"
 
 
 class YoutrackApiClientTest < Minitest::Test
+
+  TEST_PROJECT = 'YMS'
+
   def setup
     @client = YoutrackApiClient.new
   end
@@ -13,16 +16,15 @@ class YoutrackApiClientTest < Minitest::Test
       projects = @client.get_projects
       refute_nil projects
       refute_empty projects
-      assert_equal 'YMS', projects.first[:shortName]
+      assert_equal TEST_PROJECT, projects.first[:shortName]
     end
   end
 
-  # def test_get_project
-  #   VCR.use_cassette("get_project") do
-  #     project_id = ENV["YOUTRACK_MCP_PROJECT"]
-  #     project = @client.get_project(project_id)
-  #     refute_nil project
-  #     assert_includes project, project_id
-  #   end
-  # end
+  def test_get_project
+    VCR.use_cassette("get_project") do
+      project = @client.get_project(TEST_PROJECT)
+      refute_nil project
+      assert_equal TEST_PROJECT, project[:shortName]
+    end
+  end
 end

@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: "<YOUTRACK_URL>/api/admin/projects/YMS?fields=$type,archived,customFields(id),name,shortName"
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <YOUTRACK_TOKEN>
+      Connection:
+      - close
+      Host:
+      - my-mcp-test.youtrack.cloud
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Apr 2025 13:57:11 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '500'
+      Connection:
+      - close
+      Access-Control-Expose-Headers:
+      - Location
+      - X-Version
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - frame-ancestors 'self';
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Server:
+      - YouTrack
+      X-Youtrack-User:
+      - admin
+      X-Version:
+      - dc3c2cbb163b7e4ebd98bfb9d71a234601f67be9fe5add4cea2a21003f686903
+      Cache-Control:
+      - no-cache, no-store, no-transform, must-revalidate
+      Vary:
+      - Accept-Encoding, User-Agent
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains;
+    body:
+      encoding: UTF-8
+      string: '{"customFields":[{"id":"171-10","$type":"EnumProjectCustomField"},{"id":"171-11","$type":"EnumProjectCustomField"},{"id":"171-12","$type":"StateProjectCustomField"},{"id":"171-13","$type":"OwnedProjectCustomField"},{"id":"171-14","$type":"VersionProjectCustomField"},{"id":"171-15","$type":"VersionProjectCustomField"},{"id":"171-16","$type":"BuildProjectCustomField"},{"id":"172-2","$type":"UserProjectCustomField"}],"shortName":"YMS","archived":false,"name":"Youtrack
+        MCP Server","$type":"Project"}'
+  recorded_at: Thu, 10 Apr 2025 13:57:11 GMT
+recorded_with: VCR 6.3.1
