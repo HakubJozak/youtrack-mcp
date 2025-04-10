@@ -15,5 +15,7 @@ group :development do
 end
 
 group :test do
+  gem "minitest", "~> 5.20"
   gem "vcr", "~> 6.3.1"
+  gem "webmock", "~> 3.19"
 end

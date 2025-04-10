@@ -9,6 +9,7 @@ JetBrains Youtrack project management.
 - FastMCP README - https://github.com/yjacquin/fast-mcp
 - Swagger/Open API Specs are in docs/youtrack-openapi.json
 - CLI is using https://github.com/commander-rb/commander as a option parser DSL
+- Minitest - https://docs.seattlerb.org/minitest/
 
 ## YouTrack Query Language
 
