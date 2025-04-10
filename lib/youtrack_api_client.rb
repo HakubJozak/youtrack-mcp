@@ -30,8 +30,8 @@ class YoutrackApiClient
     parse get("/admin/customFieldSettings/customFields/#{id}", params: { fields: })
   end
 
-
-
+  def get_issues
+  end
 
   private
 

@@ -75,6 +75,8 @@ GEM
       method_source (~> 1.0)
     public_suffix (6.0.1)
     rake (13.2.1)
+    vcr (6.3.1)
+      base64
     zeitwerk (2.6.18)
 
 PLATFORMS
@@ -87,6 +89,7 @@ DEPENDENCIES
   fast-mcp (~> 1.0)
   http (~> 5.2)
   pry
+  vcr
 
 BUNDLED WITH
    2.6.7
