@@ -1,5 +1,4 @@
 require 'commander/import'
-require_relative '../lib/youtrack_api_client'
 
 api = YoutrackApiClient.new
 

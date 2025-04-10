@@ -102,6 +102,7 @@ DEPENDENCIES
   pry
   vcr (~> 6.3.1)
   webmock (~> 3.19)
+  zeitwerk (~> 2.6)
 
 BUNDLED WITH
    2.6.7

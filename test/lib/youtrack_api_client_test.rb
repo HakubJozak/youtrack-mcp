@@ -2,6 +2,7 @@
 
 require "test_helper"
 
+
 class YoutrackApiClientTest < Minitest::Test
   def setup
     @client = YoutrackApiClient.new
@@ -11,13 +12,13 @@ class YoutrackApiClientTest < Minitest::Test
     assert true
   end
 
-  # def test_get_projects
-  #   VCR.use_cassette("get_projects") do
-  #     projects = @client.get_projects
-  #     refute_nil projects
-  #     refute_empty projects
-  #   end
-  # end
+  def test_get_projects
+    VCR.use_cassette("get_projects") do
+      projects = @client.get_projects
+      refute_nil projects
+      refute_empty projects
+    end
+  end
 
   # def test_get_project
   #   VCR.use_cassette("get_project") do

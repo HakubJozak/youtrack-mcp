@@ -1,9 +1,17 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'rubygems'
 require 'bundler/setup'
+require 'zeitwerk'
 
-Bundler.require(:default)
-Dotenv.load
+# Setup autoloading with Zeitwerk
+loader = Zeitwerk::Loader.new
+loader.push_dir(File.expand_path("../lib", __dir__))
+loader.setup
 
+# Load required gems
+require 'dotenv/load'
+
+# Load CLI
 require_relative '../lib/cli'

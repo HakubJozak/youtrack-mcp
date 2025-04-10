@@ -1,4 +1,7 @@
-# lib/youtrack_api_client.rb
+# frozen_string_literal: true
+
+require "http"
+
 
 class YoutrackApiClient
   VERSION='0.0.1'
@@ -53,6 +56,8 @@ class YoutrackApiClient
   end
 
   def parse(response)
+    JSON.parse(response.body.to_s)
+  rescue JSON::ParserError
     response.body.to_s
   end
 

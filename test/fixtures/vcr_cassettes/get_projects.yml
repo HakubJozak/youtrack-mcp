@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: "<YOUTRACK_URL>/api/admin/projects?fields=$type,archived,customFields,id,leader($type,id,login,ringId),name,shortName"
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <YOUTRACK_TOKEN>
+      Connection:
+      - close
+      Host:
+      - my-mcp-test.youtrack.cloud
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Apr 2025 13:45:09 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '503'
+      Connection:
+      - close
+      Access-Control-Expose-Headers:
+      - Location
+      - X-Version
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - frame-ancestors 'self';
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Server:
+      - YouTrack
+      X-Youtrack-User:
+      - admin
+      X-Version:
+      - dc3c2cbb163b7e4ebd98bfb9d71a234601f67be9fe5add4cea2a21003f686903
+      Cache-Control:
+      - no-cache, no-store, no-transform, must-revalidate
+      Vary:
+      - Accept-Encoding, User-Agent
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains;
+    body:
+      encoding: UTF-8
+      string: '[{"customFields":[{"$type":"EnumProjectCustomField"},{"$type":"EnumProjectCustomField"},{"$type":"StateProjectCustomField"},{"$type":"OwnedProjectCustomField"},{"$type":"VersionProjectCustomField"},{"$type":"VersionProjectCustomField"},{"$type":"BuildProjectCustomField"},{"$type":"UserProjectCustomField"}],"shortName":"YMS","leader":{"ringId":"4e55c198-b66c-4122-8da5-8a5caba8eea0","login":"admin","id":"2-1","$type":"User"},"archived":false,"name":"Youtrack
+        MCP Server","id":"0-2","$type":"Project"}]'
+  recorded_at: Thu, 10 Apr 2025 13:45:09 GMT
+recorded_with: VCR 6.3.1

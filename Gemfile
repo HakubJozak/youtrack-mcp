@@ -9,6 +9,7 @@ gem "fast-mcp", "~> 1.0"
 gem "http", "~> 5.2"
 gem "commander", "~> 5.0"
 gem "dotenv", "~> 3.1"
+gem "zeitwerk", "~> 2.6"
 
 group :development do
 
