@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "http"
+require "active_support/core_ext/hash/indifferent_access"
 
 
 class YoutrackApiClient
@@ -48,7 +49,6 @@ class YoutrackApiClient
     response
   end
 
-
   def http
     ::HTTP
       .headers(accept: 'application/json')
@@ -56,9 +56,18 @@ class YoutrackApiClient
   end
 
   def parse(response)
-    JSON.parse(response.body.to_s)
+    result = JSON.parse(response.body.to_s)
+    
+    # If the result is an array, convert each hash in the array
+    if result.is_a?(Array)
+      result.map { |item| item.is_a?(Hash) ? item.with_indifferent_access : item }
+    elsif result.is_a?(Hash)
+      result.with_indifferent_access
+    else
+      result
+    end
   rescue JSON::ParserError
-    response.body.to_s
+    raise Error, response.body.to_s
   end
 
   def base_url

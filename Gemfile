@@ -10,6 +10,7 @@ gem "http", "~> 5.2"
 gem "commander", "~> 5.0"
 gem "dotenv", "~> 3.1"
 gem "zeitwerk", "~> 2.6"
+gem "activesupport", "~> 7.1"
 
 group :development do
 
