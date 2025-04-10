@@ -1,10 +1,13 @@
 require 'commander/import'
 
-api = YoutrackApiClient.new
+service = YoutrackService.new
 
 program :name, 'youtrack'
 program :version, '0.0.1'
 program :description, 'Youtrack MCP'
+
+# Display help by default if no command given
+default_command :help
 
 command :projects do |c|
   c.syntax = 'youtrack projects, [options]'
@@ -14,7 +17,7 @@ command :projects do |c|
   c.option '--some-switch', 'Some switch that does something'
 
   c.action do |args, options|
-    puts api.get_admin_projects
+    puts service.list_projects
   end
 end
 
@@ -30,17 +33,23 @@ command :project do |c|
     end
 
     project_id = args[0]
-    puts api.get_admin_project(project_id)
+    puts service.get_project(project_id)
   end
 end
 
 command :fields do |c|
-  c.syntax = 'youtrack fields [options]'
-  c.summary = 'list all custom fields'
-  c.description = 'Retrieves all custom fields configured in YouTrack'
+  c.syntax = 'youtrack fields PROJECT_ID'
+  c.summary = 'list custom fields for a project'
+  c.description = 'Retrieves all custom fields configured for a YouTrack project'
   
   c.action do |args, options|
-    puts api.get_admin_custom_fields
+    if args.empty?
+      puts "Please provide a project ID"
+      exit
+    end
+    
+    project_id = args[0]
+    puts service.get_project_fields(project_id)
   end
 end
 
@@ -56,7 +65,7 @@ command :field do |c|
     end
 
     field_id = args[0]
-    puts api.get_admin_custom_field(field_id)
+    puts api.get_admin_custom_field(field_id) rescue puts "Custom field not implemented yet"
   end
 end
 
